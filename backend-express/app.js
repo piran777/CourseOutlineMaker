@@ -2,8 +2,6 @@ const express = require('express');
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const mongoose = require('mongoose');
-
-
 const app = express();
 const PORT = 4200;
 
@@ -11,6 +9,19 @@ var corsOptions = {
     origin: 'http://localhost:' + PORT,
     optionsSuccessStatus: 200
 }
+
+mongoose.connect("mongodb+srv://admin:AOhNpaBRe1MTRGLT@cluster0.yzv6cv1.mongodb.net/test");
+const database = mongoose.connection
+
+database.on('error', (error) => {
+    console.log(error)
+})
+
+database.once('connected', () => {
+    console.log('Database Connected');
+})
+
+const router = express.Router()
 
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
