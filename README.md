@@ -11,4 +11,4 @@ Frontend
 Express Backend
 1. Move to the 'frontend' directory
 2. In the terminal, run 'npm install'
-3. In the terminal, run 'node app.js' or 'npx nodemon app.js' for live reloads
+3. In the terminal, run 'npm start'

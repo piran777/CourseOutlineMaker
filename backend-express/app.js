@@ -1,8 +1,19 @@
 const express = require('express');
+const cors = require("cors");
+const bodyParser = require("body-parser");
+const mongoose = require('mongoose');
+
 
 const app = express();
-const PORT = 3000;
+const PORT = 4200;
 
+var corsOptions = {
+    origin: 'http://localhost:' + PORT,
+    optionsSuccessStatus: 200
+}
+
+app.use(cors(corsOptions));
+app.use(bodyParser.json());
 app.use(express.json());
 app.post('/', (req, res) => {
     const { name } = req.body;
