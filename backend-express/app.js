@@ -4,33 +4,26 @@ const bodyParser = require("body-parser");
 const mongoose = require('mongoose');
 const app = express();
 const PORT = 4200;
+var corsOptions = { origin: 'http://localhost:' + PORT, optionsSuccessStatus: 200 }
 
-var corsOptions = {
-    origin: 'http://localhost:' + PORT,
-    optionsSuccessStatus: 200
-}
-
+mongoose.set('strictQuery', true);
 mongoose.connect("mongodb+srv://admin:AOhNpaBRe1MTRGLT@cluster0.yzv6cv1.mongodb.net/test");
 const database = mongoose.connection
-
-database.on('error', (error) => {
-    console.log(error)
-})
-
+database.on('error', (error) => { console.log(error) })
 database.once('connected', () => {
     console.log('Database Connected');
 })
 
-const router = express.Router()
-
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use(express.json());
-app.post('/', (req, res) => {
-    const { name } = req.body;
 
-    res.send(`Welcome ${name}`);
-})
+// Outline endpoints
+app.post('/outline', (req, res) => {
+    database.collection("outline").insertOne(req.body, function (error, data) {
+        res.send((data ? data : error));
+    });
+});
 
 app.listen(PORT, (error) => {
     if (!error)
