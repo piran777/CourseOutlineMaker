@@ -1,13 +1,20 @@
-module.exports.signup = (req, res) => {
-    const { email, password } = req.body;
+const UserInfo = require('./userModel');
 
-    console.log(email, password);
-    res.send(req.body);
+module.exports.signup = async (req, res) => {
+    const { firstName, lastName, email, password } = req.body;
+
+    try {
+        const userInfo = await UserInfo.create({ firstName, lastName, email, password });
+        res.status(201).json(userInfo);
+    } catch (err) {
+        console.log(err);
+        res.status(400).send('Error, user not created');
+    }
 }
 
-module.exports.login = (req, res) => {
-    const { email, password } = req.body;
+module.exports.login = async (req, res) => {
+    const { firstName, lastName, email, password } = req.body;
 
-    console.log(email, password);
+    console.log(firstName, lastName, email, password);
     res.send(req.body);
 }

@@ -24,4 +24,8 @@ const userSchema = new mongoose.Schema({
     },
 });
 
-const User = mongoose.model('user');
+const auth = mongoose.connection.useDb('auth');
+
+const UserInfo = auth.model('user', userSchema);
+
+module.exports = UserInfo;
