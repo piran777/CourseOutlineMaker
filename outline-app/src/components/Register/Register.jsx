@@ -33,6 +33,7 @@ export default function Index() {
 
             if(data) {
                 //Redirects to home page
+                console.log(data);
             }
 
         } catch (err) {

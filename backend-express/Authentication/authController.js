@@ -45,8 +45,13 @@ module.exports.signup = async (req, res) => {
 }
 
 module.exports.login = async (req, res) => {
-    const { firstName, lastName, email, password } = req.body;
+    const { email, password } = req.body;
 
-    console.log(firstName, lastName, email, password);
-    res.send(req.body);
+    try {
+        const user = await UserInfo.login(email, password);
+
+        res.status(200).json({ user: user._id })
+    } catch (err) {
+        res.status(400).json({});
+    }
 }

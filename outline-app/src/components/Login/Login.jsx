@@ -11,7 +11,33 @@ export default function Index() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        console.log(login);
+        let data = {};
+
+        try {
+            const url = `http://localhost:4200/login`;
+
+            const res = await axios.post(url, {
+                email: login.email, 
+                password: login.password
+            }, {
+                withCredentials: true
+            })
+            .then(function (response) {
+                data = response.data;
+            })
+
+            if(data) {
+                //Redirects to home page
+                console.log(data);
+            }
+
+        } catch (err) {
+            console.log(err.response.data);
+
+            if(err.response.data.errors) {
+                //List errors
+            }
+        }
     }
 
     const handleChange = ({ currentTarget: input }) => {
@@ -20,7 +46,7 @@ export default function Index() {
 
     return (
         <div>
-            <form onSubmit = {this.handleSubmit}>
+            <form onSubmit = {handleSubmit}>
                 <h1>Log In</h1>
                 <label htmlFor = "email">Email</label>
                 <input type="text" name = "email" onChange={handleChange} value = {login.email} required />
