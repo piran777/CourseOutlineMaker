@@ -1,11 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import {Route, Routes, BrowserRouter, Outlet} from 'react-router-dom';
 import './index.css';
+import Pdf from './pdf';
+import App from './App';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+    <BrowserRouter>
+    <Routes>
+    <Route path = "/pdf" exact element = {<App />}></Route>
+    <Route path = "/pdfZ" exact element = {<Pdf />}></Route>
     
+  </Routes>
+    </BrowserRouter>
   </React.StrictMode>
 );
 

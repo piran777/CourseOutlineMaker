@@ -1,6 +1,8 @@
 const express = require('express');
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const pdf = require('html-pdf');
+const pdfTemplate = require('./documents/App');
 const mongoose = require('mongoose');
 const app = express();
 const PORT = 4200;
@@ -15,6 +17,8 @@ database.once('connected', () => {
 })
 
 app.use(cors(corsOptions));
+app.use(cors());
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(express.json());
 
@@ -24,6 +28,24 @@ app.post('/outline', (req, res) => {
         res.send((data ? data : error));
     });
 });
+
+
+//post - pdf generation and fetch
+app.post('/create-pdf', (req,res) => {
+pdf.create(pdfTemplate(req.body), {}).toFile('result.pdf', (err)=>{
+    if(err){
+        res.send(Promise.reject());
+    }
+     res.send(Promise.resolve());
+})
+
+});
+
+//get - send pdf to client
+app.get('/fetch-pdf', (req, res) => {
+    res.sendFile(`${__dirname}/result.pdf`)
+})
+
 
 app.listen(PORT, (error) => {
     if (!error)
