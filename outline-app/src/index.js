@@ -12,7 +12,7 @@ root.render(
       <Route path = "/login" exact element = {<Login />}></Route>
       <Route path = "/register" exact element = {<Register />}></Route>
 
-      <Route path = "*" element = {<Login />} />
+      <Route path = "*" element = {<Login />}></Route>
   </Routes>
   </BrowserRouter>
 );

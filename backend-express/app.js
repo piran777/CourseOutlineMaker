@@ -2,10 +2,13 @@ const express = require('express');
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const mongoose = require('mongoose');
+const cookieParser = require('cookie-parser');
 const app = express();
 const PORT = 4200;
 const authController = require('./Authentication/authController');
-var corsOptions = { origin: 'http://localhost:' + PORT, optionsSuccessStatus: 200 }
+var corsOptions = { 
+    origin: ['http://localhost:' + PORT, 'http://localhost:3000'], 
+    optionsSuccessStatus: 200 }
 
 mongoose.set('strictQuery', true);
 mongoose.connect("mongodb+srv://admin:AOhNpaBRe1MTRGLT@cluster0.yzv6cv1.mongodb.net/test");
@@ -18,6 +21,7 @@ database.once('connected', () => {
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use(express.json());
+app.use(cookieParser());
 
 // Outline endpoints
 app.post('/outline', (req, res) => {
