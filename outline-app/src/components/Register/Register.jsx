@@ -2,14 +2,28 @@ import React from 'react'
 import { useState } from 'react';
 import axios from 'axios';
 import {useNavigate, Link} from 'react-router-dom';
+import './register.css';
 
 export default function Index() {
     const navigate = useNavigate();
 
     const [info, setInfo] = useState({email: '', firstName: '', lastName: '', password: ''});
 
+    const firstNameError = document.getElementsByClassName("firstName_error");
+    const lastNameError = document.getElementsByClassName("lastName_error");
+    const emailError = document.getElementsByClassName("email_error");
+    const passwordError = document.getElementsByClassName("password_error");
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        let data = {};
+
+        //Reset Errors
+        firstNameError.innerHTML  = 'Hello';
+        lastNameError.innerHTML  = '';
+        emailError.innerHTML  = '';
+        passwordError.innerHTML  = '';
 
         try {
             const url = `http://localhost:4200/signup`;
@@ -23,12 +37,21 @@ export default function Index() {
                 withCredentials: true
             })
             .then(function (response) {
-                console.log(response);
+                data = response.data;
             })
+
+            console.log(data);
+
         } catch (err) {
-            console.log(err);
+            console.log(err.response.data.errors);
+
+            if(err.response.data.errors) {
+                firstNameError.innerHTML  = err.response.data.errors.firstName;
+                lastNameError.innerHTML  = err.response.data.errors.lastName;
+                emailError.innerHTML  = err.response.data.errors.email;
+                passwordError.innerHTML  = err.response.data.errors.password;
+            }
         }
-        console.log(info);
     }
 
     const handleChange = ({ currentTarget: input }) => {
@@ -41,19 +64,19 @@ export default function Index() {
                 <h1>Register</h1>
                 <label htmlFor = "firstName">First Name</label>
                 <input type="text" name = "firstName" onChange={handleChange} value = {info.firstName} required />
-                <div className="firstName error"></div>
+                <div className="firstName_error"></div>
 
                 <label htmlFor = "lastName">Last Name</label>
                 <input type="text" name = "lastName" onChange={handleChange} value = {info.lastName} required />
-                <div className="lastName error"></div>
+                <div className="lastName_error"></div>
 
                 <label htmlFor = "email">Email</label>
                 <input type="text" name = "email" onChange={handleChange} value = {info.email} required />
-                <div className="email error"></div>
+                <div className="email_error"></div>
 
                 <label htmlFor="password">Password</label>
                 <input type="password" name = "password" onChange={handleChange} value = {info.password} required />
-                <div className="password error"></div>
+                <div className="password_error"></div>
 
                 <button>Sign up</button>
             </form>
