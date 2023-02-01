@@ -5,6 +5,16 @@ const jwt = require('jsonwebtoken');
 const handleErrors = (err) => {
     let errors = { firstName: '', lastName: '', email: '', password: '' };
 
+    //Incorrect Email
+    if(err.message === 'Email does not exist') {
+        errors.email = 'Email not found';
+    }
+
+    //Incorrect Password
+    if(err.message === 'Password does not match') {
+        errors.email = 'Password does not match';
+    }
+
     //Duplicate Email Error Code
     if(err.code === 11000) {
         errors.email = 'That email is already registered';
@@ -36,6 +46,7 @@ module.exports.signup = async (req, res) => {
     try {
         const userInfo = await UserInfo.create({ firstName, lastName, email, password });
         const token = createToken(userInfo._id);
+
         res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
         res.status(201).json({ user: userInfo._id });
     } catch (err) {
@@ -49,9 +60,12 @@ module.exports.login = async (req, res) => {
 
     try {
         const user = await UserInfo.login(email, password);
+        const token = createToken(user._id);
 
+        res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
         res.status(200).json({ user: user._id })
     } catch (err) {
-        res.status(400).json({});
+        const errors = handleErrors(err);
+        res.status(400).json({ errors });
     }
 }
