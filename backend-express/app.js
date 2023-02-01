@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const mongoose = require('mongoose');
 const app = express();
 const PORT = 4200;
+const authController = require('./Authentication/authController');
 var corsOptions = { origin: 'http://localhost:' + PORT, optionsSuccessStatus: 200 }
 
 mongoose.set('strictQuery', true);
@@ -24,6 +25,9 @@ app.post('/outline', (req, res) => {
         res.send((data ? data : error));
     });
 });
+
+app.post('/signup', authController.signup)
+app.post('/login', authController.login)
 
 app.listen(PORT, (error) => {
     if (!error)
