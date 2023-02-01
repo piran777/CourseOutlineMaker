@@ -6,9 +6,18 @@ const cookieParser = require('cookie-parser');
 const app = express();
 const PORT = 4200;
 const authController = require('./Authentication/authController');
+var whiteList = ['http://localhost:' + PORT, 'http://localhost:3000'];
 var corsOptions = { 
-    origin: ['http://localhost:' + PORT, 'http://localhost:3000'], 
-    optionsSuccessStatus: 200 }
+    origin: function (origin, callback) {
+        if (whiteList.indexOf(origin) !== -1) {
+            callback(null, true)
+          } else {
+            callback(new Error('Not allowed by CORS'))
+          }
+    }, 
+    optionsSuccessStatus: 200,
+    credentials: true
+    }
 
 mongoose.set('strictQuery', true);
 mongoose.connect("mongodb+srv://admin:AOhNpaBRe1MTRGLT@cluster0.yzv6cv1.mongodb.net/test");

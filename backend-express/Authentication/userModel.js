@@ -29,7 +29,6 @@ const userSchema = new mongoose.Schema({
 
 //Run function after info saved to db
 userSchema.post('save', function(doc, next) {
-    console.log('New user was created and saved', doc)
     next();
 })
 

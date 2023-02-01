@@ -19,10 +19,12 @@ export default function Index() {
                 firstName: info.firstName, 
                 lastName: info.lastName, 
                 password: info.password
+            }, {
+                withCredentials: true
             })
             .then(function (response) {
                 console.log(response);
-              })
+            })
         } catch (err) {
             console.log(err);
         }
