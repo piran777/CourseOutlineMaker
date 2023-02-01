@@ -9,21 +9,12 @@ export default function Index() {
 
     const [info, setInfo] = useState({email: '', firstName: '', lastName: '', password: ''});
 
-    const firstNameError = document.getElementsByClassName("firstName_error");
-    const lastNameError = document.getElementsByClassName("lastName_error");
-    const emailError = document.getElementsByClassName("email_error");
-    const passwordError = document.getElementsByClassName("password_error");
-
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         let data = {};
 
         //Reset Errors
-        firstNameError.innerHTML  = 'Hello';
-        lastNameError.innerHTML  = '';
-        emailError.innerHTML  = '';
-        passwordError.innerHTML  = '';
 
         try {
             const url = `http://localhost:4200/signup`;
@@ -40,16 +31,15 @@ export default function Index() {
                 data = response.data;
             })
 
-            console.log(data);
+            if(data) {
+                //Redirects to home page
+            }
 
         } catch (err) {
             console.log(err.response.data.errors);
 
             if(err.response.data.errors) {
-                firstNameError.innerHTML  = err.response.data.errors.firstName;
-                lastNameError.innerHTML  = err.response.data.errors.lastName;
-                emailError.innerHTML  = err.response.data.errors.email;
-                passwordError.innerHTML  = err.response.data.errors.password;
+                //List errors
             }
         }
     }
