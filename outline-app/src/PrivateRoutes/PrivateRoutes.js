@@ -1,32 +1,48 @@
 import React, { useEffect, useState} from 'react';
-import { Route, Navigate } from 'react-router-dom'
-import Cookies from 'js-cookie';
-import { useJwt } from "react-jwt";
+import { Navigate } from 'react-router-dom'
+import axios from 'axios';
 
 const PrivateRoute = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(null)  
+    const [isAuthenticated, setIsAuthenticated] = useState(null)  
 
-  const { decodedToken } = useJwt('jwt');
+    let credentials = {};
 
-  useEffect(() => {
-    const token = Cookies.get('jwt');
-    
-    if(token){
-        if(decodedToken) {
-            setIsAuthenticated(true)
-        } else {
-            setIsAuthenticated(false)
+    useEffect(() => {
+      const url = `http://localhost:4200/requireauth`;
+
+      async function getValid() {
+        try {
+          const res = await axios.get(url,{
+            withCredentials: true
+          })
+          .then(function (response) {
+            credentials = response.status;
+          })
+        } catch (err) {
+          console.log(err)
         }
-    } else {
-       setIsAuthenticated(false)
-    }
-  }, [])
 
-  if(isAuthenticated === null){
-    return <></>
-  } 
+        switch(credentials) {
+          case 200:
+            setIsAuthenticated(true);
+            break;
+          case 400:
+            setIsAuthenticated(false);
+            break;
+          default:
+            setIsAuthenticated(false);
+            break;
+        }
+      }
 
-  return isAuthenticated ? children :  <Navigate to = '/login'/>;
+      getValid();
+    }, [])
+
+    if(isAuthenticated === null){
+      return <></>
+    } 
+
+    return isAuthenticated ? children :  <Navigate to = '/login'/>;
 };
 
 export default PrivateRoute

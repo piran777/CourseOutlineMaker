@@ -7,7 +7,7 @@ import './register.css';
 export default function Index() {
     const navigate = useNavigate();
 
-    const [info, setInfo] = useState({email: '', firstName: '', lastName: '', password: ''});
+    const [info, setInfo] = useState({email: '', firstName: '', lastName: '', password: '', position: 'instructor'});
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -23,7 +23,8 @@ export default function Index() {
                 email: info.email, 
                 firstName: info.firstName, 
                 lastName: info.lastName, 
-                password: info.password
+                password: info.password,
+                position: info.position
             }, {
                 withCredentials: true
             })

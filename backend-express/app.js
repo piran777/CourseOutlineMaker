@@ -3,6 +3,9 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
+const jwt = require('jsonwebtoken');
+const User = require('./Authentication/userModel');
+
 const app = express();
 const PORT = 4200;
 const authController = require('./Authentication/authController');
@@ -42,6 +45,44 @@ app.post('/outline', (req, res) => {
 app.post('/signup', authController.signup);
 app.post('/login', authController.login);
 app.get('/logout', authController.logout);
+
+
+//Check if JWT exists & is verified
+app.get('/requireauth', (req, res) => {
+    const token = req.cookies.jwt;
+
+    //Check if JWT exists & is verified
+    if(token) {
+        jwt.verify(token, 'Course Outlines Secret', (err, decodedToken) => {
+            if(err) {
+                res.status(400).send("Invalid");
+            } else {
+                res.status(200).send("Pass");
+            }
+        });
+    } else {
+        res.status(400).send("Invalid");
+    }
+});
+
+//Check Current User
+app.get('/checkuser', (req, res) => {
+    const token = req.cookies.jwt;
+
+    if(token) {
+        jwt.verify(token, 'Course Outlines Secret', async (err, decodedToken) => {
+            if(err) {
+                res.status(400).send("Invalid");
+            } else {
+                let user = await User.findById(decodedToken.id)
+                res.status(200).send(user);
+            }
+        });
+    } else {
+        res.status(400).send("Invalid");
+
+    }
+})
 
 app.listen(PORT, (error) => {
     if (!error)
