@@ -90,3 +90,33 @@ button {
   height: 10px;
   width: 40px;
 }
+table {
+  border: 1px solid black;
+  border-collapse: collapse;
+  width: 100%;
+}
+td {
+  border: 1px solid black;
+  padding: 8px;
+  text-align: center;
+}
+
+th, td {
+ 
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #dddddd;
+}
+.attributes{
+  
+  padding: 8px;
+  text-align: left;
+}
+.desc2{
+  
+  word-wrap: break-word;
+  
+}
