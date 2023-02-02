@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import {Route, Routes, BrowserRouter} from 'react-router-dom';
-import PrivateRoute from './PrivateRoutes';
+import PrivateRoute from './PrivateRoutes/PrivateRoutes';
 import Login from './components/Login/Login';
 import Register from './components/Register/Register';
 

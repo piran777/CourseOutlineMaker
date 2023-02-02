@@ -39,8 +39,9 @@ app.post('/outline', (req, res) => {
     });
 });
 
-app.post('/signup', authController.signup)
-app.post('/login', authController.login)
+app.post('/signup', authController.signup);
+app.post('/login', authController.login);
+app.get('/logout', authController.logout);
 
 app.listen(PORT, (error) => {
     if (!error)
