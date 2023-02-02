@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Document, Page, Text, View } from '@react-pdf/renderer';
+import { Document, Page, PDFViewer, Text, View } from '@react-pdf/renderer';
 import axios from 'axios';
 import {saveAs} from 'file-saver';
 const CourseOutline = () => {
@@ -48,8 +48,22 @@ const CourseOutline = () => {
   const handleChange = ({currentTarget: input}) => {
     setData({...data,[input.name]: input.value });
 };
+const [inputText, setInputText] = useState("");
+
+const handleInput = (e) => {
+  setInputText(e.target.value);
+};
+
+const handleWriteToPage = () => {
+  const node = document.createElement("p");
+  const textnode = document.createTextNode(inputText);
+  node.appendChild(textnode);
+  document.getElementById("output").appendChild(node);
+};
+
   return (
     <Document>
+      
         <Page size = "A4">
         
         <div class="container">
@@ -72,6 +86,8 @@ const CourseOutline = () => {
           onChange={handleChange}
           placeholder="20YY-YY"
         /> </h2>
+        <button onClick={handleWriteToPage}>Write to Page</button>
+      <div id="output"></div>
         </form>
        
        </div>
@@ -541,4 +557,7 @@ Students who are in emotional/mental distress should refer to Mental Health @ We
   );
 };
 
-export default CourseOutline;
+
+
+export default CourseOutline
+;
