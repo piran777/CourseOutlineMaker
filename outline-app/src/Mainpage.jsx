@@ -1,28 +1,38 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { saveAs } from 'file-saver';
 
-export default function Mainpage(){
-    const getPDF = async () => {
-        try {
-            const response = await axios.get('/fetch-pdf', { responseType: 'blob' })
-            .then(function (response){
-                data = response.data;
-            })
-        } catch (error) {
-            console.log(error);
-        }
+const MainPage = () => {
+  const [pdfBlob, setPdfBlob] = useState(null);
+
+  const getPDF = async () => {
+    try {
+      const res = await axios.get('/fetch-pdf', { responseType: 'blob' });
+      setPdfBlob(new Blob([res.data], { type: 'application/pdf' }));
+    } catch (error) {
+      console.error(error);
     }
+  };
 
-    return ( 
-        <div>
-            <button onClick={getPDF}>
-                View PDF
-            </button>
-        </div>
+  return (
+    <div>
+      <button onClick={getPDF}>View PDF</button>
+      {pdfBlob && (
+        <a
+          href={URL.createObjectURL(pdfBlob)}
+          target="_blank"
+          rel="noopener noreferrer"
+          download="CourseOutline.pdf"
+        >
+          Download PDF
+        </a>
+      )}
+    </div>
+  );
+};
 
-    )
-}
+export default MainPage;
+
 
 
 
