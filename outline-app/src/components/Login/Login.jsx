@@ -14,7 +14,7 @@ export default function Index() {
         let data = {};
 
         try {
-            const url = `http://localhost:4200/login`;
+            const url = `/login`;
 
             const res = await axios.post(url, {
                 email: login.email, 

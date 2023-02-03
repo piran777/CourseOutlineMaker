@@ -8,19 +8,8 @@ const User = require('./Authentication/userModel');
 
 const app = express();
 const PORT = 4200;
+var corsOptions = { origin: 'http://localhost:' + PORT, optionsSuccessStatus: 200, credentials: true };
 const authController = require('./Authentication/authController');
-var whiteList = ['http://localhost:' + PORT, 'http://localhost:3000'];
-var corsOptions = { 
-    origin: function (origin, callback) {
-        if (whiteList.indexOf(origin) !== -1) {
-            callback(null, true)
-          } else {
-            callback(new Error('Not allowed by CORS'))
-          }
-    }, 
-    optionsSuccessStatus: 200,
-    credentials: true
-}
 
 mongoose.set('strictQuery', true);
 mongoose.connect("mongodb+srv://admin:AOhNpaBRe1MTRGLT@cluster0.yzv6cv1.mongodb.net/test");

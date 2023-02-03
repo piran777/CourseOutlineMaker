@@ -8,7 +8,7 @@ const CurrentUser = () => {
     let user = {};
 
     useEffect(() => {
-      const url = `http://localhost:4200/checkuser`;
+      const url = `/checkuser`;
 
       async function getValid() {
         try {

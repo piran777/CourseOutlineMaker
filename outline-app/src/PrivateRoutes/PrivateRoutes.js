@@ -8,7 +8,7 @@ const PrivateRoute = ({ children }) => {
     let credentials = {};
 
     useEffect(() => {
-      const url = `http://localhost:4200/requireauth`;
+      const url = `/requireauth`;
 
       async function getValid() {
         try {
