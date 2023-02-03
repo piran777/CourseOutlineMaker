@@ -36,8 +36,12 @@ pdf.create(pdfTemplate(req.body), {}).toFile('result.pdf', (err)=>{
     if(err){
         res.send(Promise.reject());
     }
-     res.send(Promise.resolve());
+    database.collection("outline").insertOne(req.body, function (error, data) {
+        res.send(Promise.resolve() && (data ? data : error));
+    });
+    
 })
+
 
 });
 

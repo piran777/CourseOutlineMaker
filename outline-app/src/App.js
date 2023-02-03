@@ -5,8 +5,8 @@ import { Document, Page, PDFViewer, Text, View } from '@react-pdf/renderer';
 
 
 
-
 class App extends Component {
+  
   state = {
     code: '',
     course: '',
@@ -58,20 +58,18 @@ class App extends Component {
     locker: 0,
     devices: "",
     clickers: "",
+    outlineName:"",
+  }
+   
+   
 
-
-
-
-
-
-
-
-
-
+  handleChange = ({ target: { value, name }}) => this.setState({ [name]: value })
+  handleChange2 = (e) =>{
+    this.setState({value: e.target.value})
   }
   
+
   
-  handleChange = ({ target: { value, name }}) => this.setState({ [name]: value })
 
   createAndDownloadPdf = () => {
     axios.post('/create-pdf', this.state)
@@ -79,7 +77,7 @@ class App extends Component {
       .then((res) => {
         const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
 
-        saveAs(pdfBlob, 'CourseOutline.pdf');
+        saveAs(pdfBlob, `${this.state.value}.pdf`);
       })
   }
 
@@ -620,6 +618,12 @@ Students who are in emotional/mental distress should refer to Mental Health @ We
         </div> */}
         
       {/* ))} */}
+      <input
+      type = "text"
+      name ="outlineName"
+      value={this.state.value}
+      onChange = { this.handleChange2 } >
+      </input>
       <button onClick={this.createAndDownloadPdf}>Download PDF</button>
     </div>
     
