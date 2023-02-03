@@ -16,16 +16,22 @@ const CurrentUser = () => {
             withCredentials: true
           })
           .then(function (response) {
-            console.log(response);
             user = response.data;
+            setStorage();
           })
         } catch (err) {
+          setStorage();
           console.log(err)
         }
       }
 
       getValid();
     }, [location.key])
+
+    function setStorage() {
+      sessionStorage.setItem('Name', user.firstName + ' ' + user.lastName);
+      sessionStorage.setItem('Position', user.position);
+    }
 
     return;
 };
