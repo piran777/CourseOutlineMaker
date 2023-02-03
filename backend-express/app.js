@@ -20,7 +20,7 @@ var corsOptions = {
     }, 
     optionsSuccessStatus: 200,
     credentials: true
-    }
+}
 
 mongoose.set('strictQuery', true);
 mongoose.connect("mongodb+srv://admin:AOhNpaBRe1MTRGLT@cluster0.yzv6cv1.mongodb.net/test");
