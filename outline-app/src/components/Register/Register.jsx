@@ -24,7 +24,7 @@ export default function Index() {
                 firstName: info.firstName, 
                 lastName: info.lastName, 
                 password: info.password,
-                position: info.position
+                position: info.position,
             }, {
                 withCredentials: true
             })
