@@ -59,7 +59,6 @@ class App extends Component {
     devices: "",
     clickers: "",
     outlineName:"",
-
   }
    
    
