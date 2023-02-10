@@ -1,0 +1,48 @@
+.Register {
+    display: flex;
+    background-color: rgb(80,80,80);
+    font-family: Arial, sans-serif;
+    width: 25%;
+    margin: auto;
+    border: 5px solid rgb(50,50,50);
+    border-radius: 25px;
+    height: 100%;
+    margin-top: 15vh;
+}
+
+.Register form {
+    display: inline-block;
+    margin: auto;
+    text-align: center;
+}
+
+.Register h1 {
+    color: rgb(70,188,255);
+    border: black;
+    width: 50%;
+    background-color: rgb(60,60,60);
+    margin: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.Register label {
+    font-size: 25px;
+    color: white;
+    display: inline-block;
+    width: 20vh;
+}
+
+.Register input {
+    border-radius: 25px;
+    font-size: 15px;
+    padding-inline: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.Register input, button {
+    margin: 10px;
+}

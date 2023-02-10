@@ -51,7 +51,7 @@ export default function Index() {
     }
 
     return (
-        <div>
+        <div className='Register'>
             <form onSubmit = {handleSubmit}>
                 <h1>Register</h1>
                 <label htmlFor = "firstName">First Name</label>
