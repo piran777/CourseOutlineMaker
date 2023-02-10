@@ -99,6 +99,13 @@ app.get('/checkuser', (req, res) => {
     }
 })
 
+// Instructors
+app.get('/instructors', (req, res) => {
+    database.collection("instructors").find().toArray(function (error, data) {
+        res.send((data ? data : error));
+    });
+});
+
 app.listen(PORT, (error) => {
     if (!error)
         console.log("Server is Successfully Running, and App is listening on port " + PORT)

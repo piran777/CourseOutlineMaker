@@ -7,6 +7,7 @@ import PrivateRoute from './PrivateRoutes/PrivateRoutes';
 import CurrentUser from './CurrentUser/CurrentUser';
 import Login from './components/Login/Login';
 import Register from './components/Register/Register';
+import AssignInstructor from './components/AssignInstructor/AssignInstructor';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -15,6 +16,7 @@ root.render(
       <Route path = '/' element = {<CurrentUser></CurrentUser>}/>
       <Route path = "/login" element = {<Login />} component = {CurrentUser}/>
       <Route path = "/register" element = {<Register />}/>
+      <Route path = "/assign-instructor" element = {<AssignInstructor />}/>
 
       <Route path = "/pdf" exact element = {<App />}></Route>
 
