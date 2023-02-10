@@ -35,6 +35,13 @@ app.post('/outline', (req, res) => {
     });
 });
 
+app.get('/getOutline/:value', (req, res) => {
+    const name = req.params.value;
+    database.collection("outline").find({ value: name }).toArray(function (error, data) {
+        res.send((data ? data : error));
+    });
+});
+
 
 //post - pdf generation and fetch
 app.post('/create-pdf', (req,res) => {
