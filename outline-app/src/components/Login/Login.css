@@ -1,0 +1,46 @@
+.Login {
+    display: flex;
+    background-color: rgb(80,80,80);
+    font-family: Arial, sans-serif;
+    width: 25%;
+    margin: auto;
+    border: 5px solid rgb(50,50,50);
+    border-radius: 25px;
+    height: 100%;
+    margin-top: 23vh;
+}
+
+body {
+    background-color: rgb(150,150,150);
+}
+
+.Login form {
+    display: inline-block;
+    margin: auto;
+    text-align: center;
+}
+
+.Login h1 {
+    color: lightcoral;
+    border: black;
+    border: 2px;
+}
+
+.Login label {
+    font-size: 25px;
+    color: white;
+    display: inline-block;
+    width: 20vh;
+}
+
+.Login input {
+    border-radius: 25px;
+    font-size: 15px;
+    padding-inline: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.Login input, button {
+    margin: 10px;
+}

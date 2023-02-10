@@ -2,6 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import axios from 'axios';
 import {useNavigate, Link} from 'react-router-dom';
+import './Login.css'
 
 export default function Index() {
     const navigate = useNavigate();
@@ -45,7 +46,7 @@ export default function Index() {
     }
 
     return (
-        <div>
+        <div className='Login'>
             <form onSubmit = {handleSubmit}>
                 <h1>Log In</h1>
                 <label htmlFor = "email">Email</label>
