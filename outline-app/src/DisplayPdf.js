@@ -60,8 +60,6 @@ const DisplayPdf = () => {
       </form>
       {outlineData.map(data => (
         <div key={data.value}>
-          <p>Value: {data.code}</p>
-          <p>Outline Data: {data.course}</p>
           <div class="header">
             <h1>Western University</h1>
             <h2>Faculty of Engineering</h2>

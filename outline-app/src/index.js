@@ -4,6 +4,7 @@ import {Route, Routes, BrowserRouter} from 'react-router-dom';
 import './index.css';
 import App from './App';
 import DisplayPdf from './DisplayPdf';
+import EditPDF from './EditPDF';
 import PrivateRoute from './PrivateRoutes/PrivateRoutes';
 import CurrentUser from './CurrentUser/CurrentUser';
 import Login from './components/Login/Login';
@@ -21,6 +22,7 @@ root.render(
 
       <Route path = "/test" element = {<PrivateRoute><Register /></PrivateRoute>}/>
       <Route path = "/DisplayPdf" exact element = {<DisplayPdf />}></Route>
+      <Route path = "/EditPDF" exact element = {<EditPDF />}></Route>
       
       
   </Routes>
