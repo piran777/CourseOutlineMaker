@@ -57,26 +57,42 @@ const EditPDF = () => {
 
     const [outlineData, setOutlineData] = useState([]);
     const [pdfName, setPdfName] = useState('');
+    const [outlineNames, setOutlineNames] = useState([]);
 
-    const handleChange = (event) => {
+    /*const handleChange = (event) => {
         const { target: { value, name } } = event;
         setFieldData({ ...fieldData, [name]: value });
+    };*/
+
+
+    const handleChange = event => {
+        event.preventDefault();
+        setPdfName(event.target.value);
+
+    }
+
+    const handleSubmit = event => {
+        event.preventDefault();
+        fetch(`/getOutline/${pdfName}`)
+            .then(response => response.json())
+            .then(data => setOutlineData(data));
     };
 
 
-    useEffect(() => {
+    /*useEffect(() => {
         if (pdfName) {
             fetch(`/getOutline/${pdfName}`)
                 .then(response => response.json())
                 .then(data => setOutlineData(data));
         }
-    }, [pdfName]);
+    }, [pdfName]);*/
 
 
-    const handleSubmit = event => {
-        event.preventDefault();
-        setPdfName(event.target.elements.value.value);
-    };
+    useEffect(() => {
+        axios.get('/getPdfNames')
+          .then(res => setOutlineNames(res.data))
+          .catch(error => console.error(error));
+      }, []);
 
     const updatePDF = () => {
         axios.post(`/updatePDF/${pdfName}`, fieldData)
@@ -91,7 +107,13 @@ const EditPDF = () => {
     return (
         <div>
             <form onSubmit={handleSubmit}>
-                <input type="text" name="value" />
+                <select name="pdfNames" onChange={handleChange}>
+                    {outlineNames.map(outlineName => (
+                        <option key={outlineName} value={outlineName}>
+                            {outlineName}
+                        </option>
+                    ))}
+                </select>
                 <button type="submit">Submit</button>
             </form>
             {outlineData.map(data => (
@@ -650,16 +672,6 @@ const EditPDF = () => {
                         </h5>
 
                     </div>
-
-
-
-
-
-
-
-
-
-
 
                     <button onClick={updatePDF}>Update PDF</button>
                 </div>

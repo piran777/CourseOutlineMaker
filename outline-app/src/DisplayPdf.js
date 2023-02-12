@@ -40,37 +40,58 @@ import axios from 'axios';
 const DisplayPdf = () => {
   const [outlineData, setOutlineData] = useState([]);
   const [pdfName, setPdfName] = useState('');
+  const [outlineNames, setOutlineNames] = useState([]);
 
-  useEffect(() => {
+  /*useEffect(() => {
     if (pdfName) {
       fetch(`/getOutline/${pdfName}`)
         .then(response => response.json())
         .then(data => setOutlineData(data));
     }
-  }, [pdfName]);
+  }, [pdfName]);*/
+
+  const handleChange = event => {
+    event.preventDefault();
+    setPdfName(event.target.value);
+
+  }
 
   const handleSubmit = event => {
     event.preventDefault();
-    setPdfName(event.target.elements.value.value);
+    fetch(`/getOutline/${pdfName}`)
+      .then(response => response.json())
+      .then(data => setOutlineData(data));
   };
+
+  useEffect(() => {
+    axios.get('/getPdfNames')
+      .then(res => setOutlineNames(res.data))
+      .catch(error => console.error(error));
+  }, []);
 
   const downloadPDF = () => {
     axios.get('/fetch-pdf', { responseType: 'blob' })
       .then((res) => {
         const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
-    
+
         saveAs(pdfBlob, `${pdfName}.pdf`);
       })
       .catch((error) => {
         console.error(error);
       });
-  };  
+  };
 
 
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <input type="text" name="value" />
+        <select name="pdfNames" onChange={handleChange}>
+          {outlineNames.map(outlineName => (
+            <option key={outlineName} value={outlineName}>
+              {outlineName}
+            </option>
+          ))}
+        </select>
         <button type="submit">Submit</button>
       </form>
       {outlineData.map(data => (
