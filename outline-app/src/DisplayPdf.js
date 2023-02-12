@@ -61,6 +61,7 @@ const DisplayPdf = () => {
     fetch(`/getOutline/${pdfName}`)
       .then(response => response.json())
       .then(data => setOutlineData(data));
+      event.target.reset();
   };
 
   useEffect(() => {
@@ -85,13 +86,14 @@ const DisplayPdf = () => {
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <select name="pdfNames" onChange={handleChange}>
+        <input list="pdfNames" type="text" onChange={handleChange} />
+        <datalist id="pdfNames">
           {outlineNames.map(outlineName => (
             <option key={outlineName} value={outlineName}>
               {outlineName}
             </option>
           ))}
-        </select>
+        </datalist>
         <button type="submit">Submit</button>
       </form>
       {outlineData.map(data => (
