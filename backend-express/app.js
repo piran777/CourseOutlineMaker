@@ -42,6 +42,18 @@ app.post('/outline', (req, res) => {
     });
 });*/
 
+app.get('/getPdfNames', (req, res) => {
+    database.collection('outline').find({}).toArray((error, data) => {
+      if (error) {
+        res.send(error);
+      } else {
+        const pdfNames = data.map(pdf => pdf.value);
+        res.send(pdfNames);
+      }
+    });
+  });
+  
+
 app.get('/getOutline/:value', (req, res) => {
     const name = req.params.value;
     database.collection("outline").find({ value: name }).toArray(function (error, data) {
