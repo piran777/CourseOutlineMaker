@@ -34,6 +34,8 @@ export default DisplayPdf;*/
 
 
 import React, { useState, useEffect } from 'react';
+import { saveAs } from 'file-saver';
+import axios from 'axios';
 
 const DisplayPdf = () => {
   const [outlineData, setOutlineData] = useState([]);
@@ -51,6 +53,19 @@ const DisplayPdf = () => {
     event.preventDefault();
     setPdfName(event.target.elements.value.value);
   };
+
+  const downloadPDF = () => {
+    axios.get('/fetch-pdf', { responseType: 'blob' })
+      .then((res) => {
+        const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
+    
+        saveAs(pdfBlob, `${pdfName}.pdf`);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };  
+
 
   return (
     <div>
@@ -311,6 +326,10 @@ const DisplayPdf = () => {
 
             Students who are in emotional/mental distress should refer to Mental Health @ Western, <a href=" http://www.health.uwo.ca/mental_health/"> http://www.health.uwo.ca/mental_health/</a>, for a complete list of options about how to obtain help
           </h5>
+
+
+
+          <button onClick={downloadPDF}>Download document as PDF</button>
         </div>
       ))}
     </div>
