@@ -109,6 +109,24 @@ app.get('/getOutline/:value', (req, res) => {
     });
 });
 
+app.post('/updatePDF/:value', (req, res) => {
+    const name = req.params.value;
+    const updatedData = req.body;
+    database.collection("outline").updateOne({ value: name }, { $set: updatedData }, function (error, result) {
+        if (error) {
+            res.send({
+                message: "Error updating document",
+                error: error
+            });
+        } else {
+            res.send({
+                message: "Document updated successfully"
+            });
+        }
+    });
+});
+
+
 
 
 //post - pdf generation and fetch
