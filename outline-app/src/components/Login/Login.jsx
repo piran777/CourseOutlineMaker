@@ -28,7 +28,8 @@ export default function Index() {
 
             if(data) {
                 //Redirects to home page
-                console.log(data);
+                localStorage.setItem('Name', data.user.firstName + ' ' + data.user.lastName);
+                localStorage.setItem('Position', data.user.position);
             }
 
         } catch (err) {

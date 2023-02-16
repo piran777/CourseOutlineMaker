@@ -2,38 +2,38 @@ import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom'
 import axios from 'axios';
 
-const CurrentUser = () => {
+async function CurrentUser() {
     const location = useLocation();
 
     let user = {};
 
-    useEffect(() => {
-      const url = `/checkuser`;
 
-      async function getValid() {
-        try {
-          const res = await axios.get(url,{
-            withCredentials: true
-          })
-          .then(function (response) {
-            user = response.data;
-            setStorage();
-          })
-        } catch (err) {
-          setStorage();
-          console.log(err)
-        }
+    const url = `/checkuser`;
+
+    async function getValid() {
+      try {
+        const res = await axios.get(url,{
+          withCredentials: true
+        })
+        .then(async function (response) {
+          user = response.data;
+          await setStorage();
+        })
+      } catch (err) {
+        setStorage();
+        console.log(err)
       }
-
-      getValid();
-    }, [location.key])
-
-    function setStorage() {
-      sessionStorage.setItem('Name', user.firstName + ' ' + user.lastName);
-      sessionStorage.setItem('Position', user.position);
     }
 
-    return;
+    getValid();
+
+
+    function setStorage() {
+      localStorage.setItem('Name', user.firstName + ' ' + user.lastName);
+      localStorage.setItem('Position', user.position);
+    }
+
+    return user.name;
 };
 
 export default CurrentUser

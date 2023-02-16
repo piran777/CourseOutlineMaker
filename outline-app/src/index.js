@@ -20,7 +20,7 @@ root.render(
 
       <Route path = "/pdf" exact element = {<App />}></Route>
 
-      <Route path = "/test" element = {<PrivateRoute><Register /></PrivateRoute>}/>
+      <Route path = "/test" element = {<PrivateRoute><Register />instructor</PrivateRoute>}/>
       
       
   </Routes>
