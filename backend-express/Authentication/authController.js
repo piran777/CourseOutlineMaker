@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 
 //Handle Errors
 const handleErrors = (err) => {
-    let errors = { firstName: '', lastName: '', email: '', password: '' };
+    let errors = { firstName: '', lastName: '', email: '', password: '', position: '' };
 
     //Incorrect Email
     if(err.message === 'Email does not exist') {
@@ -41,10 +41,10 @@ const createToken = (id) => {
 }
 
 module.exports.signup = async (req, res) => {
-    const { firstName, lastName, email, password } = req.body;
+    const { firstName, lastName, email, password, position } = req.body;
 
     try {
-        const userInfo = await UserInfo.create({ firstName, lastName, email, password });
+        const userInfo = await UserInfo.create({ firstName, lastName, email, password, position });
         const token = createToken(userInfo._id);
 
         res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });

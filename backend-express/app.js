@@ -1,6 +1,8 @@
 const express = require('express');
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const pdf = require('html-pdf');
+const pdfTemplate = require('./documents/App');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
@@ -8,19 +10,8 @@ const User = require('./Authentication/userModel');
 
 const app = express();
 const PORT = 4200;
+var corsOptions = { origin: 'http://localhost:' + PORT, optionsSuccessStatus: 200, credentials: true };
 const authController = require('./Authentication/authController');
-var whiteList = ['http://localhost:' + PORT, 'http://localhost:3000'];
-var corsOptions = { 
-    origin: function (origin, callback) {
-        if (whiteList.indexOf(origin) !== -1) {
-            callback(null, true)
-          } else {
-            callback(new Error('Not allowed by CORS'))
-          }
-    }, 
-    optionsSuccessStatus: 200,
-    credentials: true
-    }
 
 mongoose.set('strictQuery', true);
 mongoose.connect("mongodb+srv://admin:AOhNpaBRe1MTRGLT@cluster0.yzv6cv1.mongodb.net/test");
@@ -31,6 +22,8 @@ database.once('connected', () => {
 })
 
 app.use(cors(corsOptions));
+app.use(cors());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.json());
 app.use(cookieParser());
@@ -42,6 +35,28 @@ app.post('/outline', (req, res) => {
     });
 });
 
+
+//post - pdf generation and fetch
+app.post('/create-pdf', (req, res) => {
+    pdf.create(pdfTemplate(req.body), {}).toFile('result.pdf', (err) => {
+        if (err) {
+            res.send(Promise.reject());
+        }
+        database.collection("outline").insertOne(req.body, function (error, data) {
+            res.send(Promise.resolve() && (data ? data : error));
+        });
+
+    })
+
+
+});
+
+//get - send pdf to client
+app.get('/fetch-pdf', (req, res) => {
+    res.sendFile(`${__dirname}/result.pdf`)
+})
+
+
 app.post('/signup', authController.signup);
 app.post('/login', authController.login);
 app.get('/logout', authController.logout);
@@ -52,9 +67,9 @@ app.get('/requireauth', (req, res) => {
     const token = req.cookies.jwt;
 
     //Check if JWT exists & is verified
-    if(token) {
+    if (token) {
         jwt.verify(token, 'Course Outlines Secret', (err, decodedToken) => {
-            if(err) {
+            if (err) {
                 res.status(400).send("Invalid");
             } else {
                 res.status(200).send("Pass");
@@ -69,9 +84,9 @@ app.get('/requireauth', (req, res) => {
 app.get('/checkuser', (req, res) => {
     const token = req.cookies.jwt;
 
-    if(token) {
+    if (token) {
         jwt.verify(token, 'Course Outlines Secret', async (err, decodedToken) => {
-            if(err) {
+            if (err) {
                 res.status(400).send("Invalid");
             } else {
                 let user = await User.findById(decodedToken.id)
@@ -83,6 +98,24 @@ app.get('/checkuser', (req, res) => {
 
     }
 })
+
+// Instructors
+app.get('/instructors', (req, res) => {
+    const authDb = mongoose.connection.useDb('auth');
+    authDb.collection("users").find({ position: "instructor" }).toArray(function (error, data) {
+        res.send((data ? data : error));
+    });
+});
+app.post('/instructors', (req, res) => {
+    database.collection("instructors").insertOne(req.body, function (error, data) {
+        res.send(Promise.resolve() && (data ? data : error));
+    });
+});
+app.get('/instructors/assigned', (req, res) => {
+    database.collection("instructors").find().toArray(function (error, data) {
+        res.send((data ? data : error));
+    });
+});
 
 app.listen(PORT, (error) => {
     if (!error)

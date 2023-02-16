@@ -17,14 +17,14 @@ export default function Index() {
         //Reset Errors
 
         try {
-            const url = `http://localhost:4200/signup`;
+            const url = `/signup`;
 
             const res = await axios.post(url, {
                 email: info.email, 
                 firstName: info.firstName, 
                 lastName: info.lastName, 
                 password: info.password,
-                position: info.position
+                position: info.position,
             }, {
                 withCredentials: true
             })
