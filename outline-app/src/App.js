@@ -4,14 +4,7 @@ import { saveAs } from 'file-saver';
 import { Document, Page, PDFViewer, Text, View } from '@react-pdf/renderer';
 
 
-// axios.get(`/outlineLoader/${this.state.value}`)
-// .then ((respone) => {
-//   console.log(respone.data)
-// })
-// .catch((error) => {
-//   console.log(error);
-//   // handle error
-// });
+
 class App extends Component {
   
   state = {
@@ -68,15 +61,13 @@ class App extends Component {
     outlineName:"",
   }
    
-   
+
+ 
 
   handleChange = ({ target: { value, name }}) => this.setState({ [name]: value })
   handleChange2 = (e) =>{
     this.setState({value: e.target.value})
   }
-  
-
-  
 
   createAndDownloadPdf = () => {
     axios.post('/create-pdf', this.state)
@@ -88,10 +79,30 @@ class App extends Component {
       })
   }
 
- 
+  
 
+  
+   handleSubmit = (event) => {
+    event.preventDefault();
+    
+    axios.get(`http://localhost:4200/outlineLoader/${this.state.value}`)
+      .then((response) => {
+        console.log(response.data);
+        // Use the data to set the input value
+       
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+      this.setState({error: "done"})
+  };
+  
+  handleChangeNew = (e) =>{
+    this.setState({value: e.target.value})
+  }
   render() {
     return (
+      <form className = "titleInputs" onSubmit={this.handleSubmit}>
       <div className="App">
          
         <div class="container">
@@ -99,7 +110,7 @@ class App extends Component {
          <h1>Western University</h1>
          <h2>Faculty of Engineering</h2>
          <h3>Department of Electrical and Computer Engineering</h3>
-         <form className = "titleInputs">
+         
          <h1>ECE {<input
             type="text"
             name = "code"
@@ -118,7 +129,7 @@ class App extends Component {
           placeholder="20YY-YY"
         /> </h2>
        
-        </form>
+        
        
        </div>
        <div className = "textArea">
@@ -598,39 +609,11 @@ Students who are in emotional/mental distress should refer to Mental Health @ We
  </h5>
 
        </div>
-      {/* {outline.map((section, sectionIndex) => (
-        <div className="course-outline-section" key={sectionIndex}>
-          <input
-            type="text"
-            value={section.title}
-            onChange={(event) => handleChangeSectionTitle(sectionIndex, event.target.value)}
-            placeholder="Enter section title"
-          />
-          
-          
-          <button onClick={() => handleAddItem(sectionIndex)}>Add Item</button>
-          <div className="course-outline-section-content">
-            <ul>
-              {section.items.map((item, itemIndex) => (
-                <li key={itemIndex}>
-                  <input
-                    type="text"
-                    value={item}
-                    onChange={(event) => handleChangeItem(sectionIndex, itemIndex, event.target.value)}
-                    placeholder="Enter item"
-                  />
-                  
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div> */}
-        
-      {/* ))} */}
+     
       <input
       type = "text"
       name ="outlineName"
-      value={this.state.value}
+      
       onChange = { this.handleChange2 } >
       </input>
       <button onClick={this.createAndDownloadPdf}>Download PDF</button>
@@ -639,6 +622,12 @@ Students who are in emotional/mental distress should refer to Mental Health @ We
    
        
       </div>
+     
+        
+        <input type="text" onChange={this.handleChangeNew}  />
+      
+      <button type="submit">Load </button>
+      </form>
     );
   }
 }
