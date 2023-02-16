@@ -46,6 +46,7 @@ export default function Index() {
     }
 
     return (
+        <div className='loginBack'>
         <div className='Login'>
             <form onSubmit = {handleSubmit}>
                 <h1>Log In</h1>
@@ -59,6 +60,7 @@ export default function Index() {
 
                 <button>Log In</button>
             </form>
+        </div>
         </div>
     )
 }

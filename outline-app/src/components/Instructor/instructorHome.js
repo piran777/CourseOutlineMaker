@@ -1,64 +1,42 @@
-import React from 'react';
-import { useState } from 'react';
+import { useEffect } from 'react';
+import { useLocation, useNavigate, useParams, Link } from 'react-router-dom'
 import axios from 'axios';
-import {useNavigate, Link} from 'react-router-dom';
-import './instructorHome.css';
+import "./instructorHome.css";
 
-export default function Index() {
-    const navigate = useNavigate();
+const InstructorHome = () => {
 
-    const [login, setLogin] = useState({email: '', password: ''});
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        let data = {};
-
-        try {
-            const url = `/login`;
-
-            const res = await axios.post(url, {
-                email: login.email, 
-                password: login.password
-            }, {
-                withCredentials: true
-            })
-            .then(function (response) {
-                data = response.data;
-            })
-
-            if(data) {
-                //Redirects to home page
-                console.log(data);
-            }
-
-        } catch (err) {
-            console.log(err.response.data);
-
-            if(err.response.data.errors) {
-                //List errors
-            }
-        }
-    }
-
-    const handleChange = ({ currentTarget: input }) => {
-        setLogin({...login,[input.name]: input.value });
-    }
+    const location = useLocation();
+    const { fname } = useParams();
 
     return (
-        <div className='Login'>
-            <form onSubmit = {handleSubmit}>
-                <h1>Log In</h1>
-                <label htmlFor = "email">Email</label>
-                <input type="text" name = "email" onChange={handleChange} value = {login.email} required />
-                <div className="email error"></div>
+        <div className='Instructor'>
 
-                <label htmlFor="password">Password</label>
-                <input type="password" name = "password" onChange={handleChange} value = {login.password} required />
-                <div className="password error"></div>
+            <nav>
+                <Link to="/pdf">
+                    <li>Create Outline</li>
+                </Link>
+                <Link to="/register">
+                    <li>Previous Outlines</li>
+                </Link>
+                <Link to="/login">
+                    <li id="logout">Logout</li>
+                </Link>
+            </nav>
 
-                <button>Log In</button>
-            </form>
+            <h1>Welcome { fname }!</h1>
+
+            <div className='currentOutlines'>
+                <h3>Current Class Outlines</h3>
+                <ul>
+                    <li>Class 1<button className='open'>Open</button><button className='del'>Delete</button></li>
+                    <li>Class 2<button className='open'>Open</button><button className='del'>Delete</button></li>
+                    <li>Class 3<button className='open'>Open</button><button className='del'>Delete</button></li>
+                    <li>Class 4<button className='open'>Open</button><button className='del'>Delete</button></li>
+                </ul>
+            </div>
+
         </div>
     )
 }
+
+export default InstructorHome
