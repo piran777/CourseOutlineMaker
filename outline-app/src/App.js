@@ -2,67 +2,70 @@ import React, { Component, useState } from 'react';
 import axios from 'axios';
 import { saveAs } from 'file-saver';
 import { Document, Page, PDFViewer, Text, View } from '@react-pdf/renderer';
-
+//import {useForm} from 'react-hook-form'
 
 
 class App extends Component {
-  
-  state = {
-    code: '',
-    course: '',
-    year: '',
-    desc: '',
-    instructor: '',
-    calendar: '',
-    contact:'',
-    hours: 0,
-    labhours: 0,
-    anti: "",
-    pre: "",
-    co: "",
-    CEAB: 0,
-    nameDes: 0,
-    reqText: "",
-    reqRef: "",
-    recRef: "",
-    knowledge: "",
-    engTools: "",
-    impact: "",
-    probAnaly: "",
-    teamWork: "",
-    ethics: "", 
-    investigation: "",
-    comSkills: "",
-    economics: "",
-    design: "", 
-    professional: "",
-    learning: "",
-    topic1: "",
-    a: "",
-    b: "",
-    topic2: "",
-    a2: "",
-    b2: "",
-    topic3: "",
-    a3: "",
-    b3: "",
-    hwAssign: 0,
-    quizzes: 0,
-    lab: 0,
-    midterm: 0,
-    hwAssign2: "",
-    quizzes2: "",
-    labora2: "",
-    midterm2: "",
-    submission: "",
-    locker: 0,
-    devices: "",
-    clickers: "",
-    outlineName:"",
-  }
-   
+ constructor(string = ""){
+  super(string);
+    this.state = {
 
- 
+        code: '',
+        course: '',
+        year: '',
+        desc: '',
+        instructor: '',
+        calendar: '',
+        contact:'',
+        hours: 0,
+        labhours: 0,
+        anti: "",
+        pre: "",
+        co: "",
+        CEAB: 0,
+        nameDes: 0,
+        reqText: "",
+        reqRef: "",
+        recRef: "",
+        knowledge: "",
+        engTools: "",
+        impact: "",
+        probAnaly: "",
+        teamWork: "",
+        ethics: "", 
+        investigation: "",
+        comSkills: "",
+        economics: "",
+        design: "", 
+        professional: "",
+        learning: "",
+        topic1: "",
+        a: "",
+        b: "",
+        topic2: "",
+        a2: "",
+        b2: "",
+        topic3: "",
+        a3: "",
+        b3: "",
+        hwAssign: 0,
+        quizzes: 0,
+        lab: 0,
+        midterm: 0,
+        hwAssign2: "",
+        quizzes2: "",
+        labora2: "",
+        midterm2: "",
+        submission: "",
+        locker: 0,
+        devices: "",
+        clickers: "",
+        outlineName:"",
+        
+      
+    }
+  }
+
 
   handleChange = ({ target: { value, name }}) => this.setState({ [name]: value })
   handleChange2 = (e) =>{
@@ -85,12 +88,64 @@ class App extends Component {
    handleSubmit = (event) => {
     event.preventDefault();
     
-    axios.get(`http://localhost:4200/outlineLoader/${this.state.value}`)
-      .then((response) => {
-        console.log(response.data);
-        // Use the data to set the input value
+    axios.get(`http://localhost:4200/outlineLoader/${this.state.value}`).then(response => {
+      const data = response.data[0];
+      this.setState({
+        code: data.code,
+        course: data.course,
+        year: data.year,
+        desc: data.desc,
+        instructor: data.instructor,
+        calendar: data.calendar,
+        contact: data.contact,
+        hours: data.hours,
+        labhours: data.labhours,
+        anti: data.anti,
+        pre: data.pre,
+        co: data.co,
+        CEAB: data.CEAB,
+        nameDes: data.nameDes,
+        reqText: data.reqText,
+        reqRef: data.reqRef,
+        recRef: data.recRef,
+        knowledge: data.knowledge,
+        engTools: data.engTools,
+        impact: data.impact,
+        probAnaly: data.probAnaly,
+        teamWork: data.teamWork,
+        ethics: data.ethics,
+        investigation: data.investigation,
+        comSkills: data.comSkills,
+        economics: data.economics,
+        design: data.design,
+        professional: data.professional,
+        learning: data.learning,
+        topic1: data.topic1,
+        a: data.a,
+        b: data.b,
+        topic2: data.topic2,
+        a2: data.a2,
+        b2: data.b2,
+        topic3: data.topic3,
+        a3: data.a3,
+        b3: data.b3,
+        hwAssign: data.hwAssign,
+        quizzes: data.quizzes,
+        lab: data.lab,
+        midterm: data.midterm,
+        hwAssign2: data.hwAssign2,
+        quizzes2: data.quizzes2,
+        labora2: data.labora2,
+        midterm2: data.midterm2,
+        submission: data.submission,
+        locker: data.locker,
+        devices: data.devices,
+        clickers: data.clickers,
+        outlineName: data.outlineName,
+      });
+    })
        
-      })
+      
       .catch((error) => {
         console.log(error);
       });
@@ -114,18 +169,20 @@ class App extends Component {
          <h1>ECE {<input
             type="text"
             name = "code"
-             onChange={this.handleChange}
+              value={this.state.code}
+             onChange={(e) => this.setState({ code: e.target.value })}
             placeholder="XXXXA/B"
           />}:<input
           type="text"
           name = "course"
-          onChange={this.handleChange}
+          value={this.state.course}
+          onChange={(e) => this.setState({ course: e.target.value })}
           placeholder="Course Title"
         /> </h1>
          <h2>Course Outline<input
           type="text"
-          name="year"
-          onChange={this.handleChange}
+          value={this.state.year}
+             onChange={(e) => this.setState({ year: e.target.value })}
           placeholder="20YY-YY"
         /> </h2>
        
@@ -138,7 +195,8 @@ class App extends Component {
        {<textarea className = "desc"
             type="text"
             name ="desc"
-             onChange={this.handleChange}
+            value={this.state.desc}
+            onChange={(e) => this.setState({ desc: e.target.value })}
             placeholder=""
           />}
        </p>
@@ -147,7 +205,8 @@ class App extends Component {
          {<textarea className = "desc"
             type="text"
             name ="instructor"
-             onChange={this.handleChange}
+            value={this.state.instructor}
+             onChange={(e) => this.setState({ instructor: e.target.value })}
             placeholder="
             Dr. Name, P.Eng.
             TEB XXX, 519-661-2111 ext. XXXXX, UWO e-mail address as hyperlink
@@ -160,7 +219,8 @@ class App extends Component {
          {<textarea className = "desc"
             type="text"
             name="calendar"
-             onChange={this.handleChange}
+            value={this.state.calendar}
+            onChange={(e) => this.setState({ calendar: e.target.value })}
             placeholder="
            
     "
@@ -170,17 +230,20 @@ class App extends Component {
           {<input className='shortText'
           type="text"
           name="contact"
-          onChange={this.handleChange}
+          value={this.state.contact}
+          onChange={(e) => this.setState({ contact: e.target.value })}
           placeholder="X"
         />} lecture hours, <input className='shortText'
         type="number"
         name="hours"
-        onChange={this.handleChange}
+        value={this.state.hours}
+        onChange={(e) => this.setState({ hours: e.target.value })}
         placeholder="Y"
       /> laboratory hours, <input className='shortText'
       type="number"
       name="labhours"
-      onChange={this.handleChange}
+      value={this.state.labhours}
+      onChange={(e) => this.setState({ labhours: e.target.value })}
       placeholder="Z"
     /> tutorial hours, 0.5 course 
     </h4>
@@ -188,7 +251,8 @@ class App extends Component {
     Antirequisites: <input
           type="text"
           name="anti"
-          onChange={this.handleChange}
+          value={this.state.anti}
+            onChange={(e) => this.setState({ anti: e.target.value })}
           placeholder="ECE2238B"
         />
     </h4>
@@ -196,7 +260,8 @@ class App extends Component {
     Prerequisites: <input
           type="text"
           name="pre"
-          onChange={this.handleChange}
+          value={this.state.pre}
+            onChange={(e) => this.setState({ pre: e.target.value })}
           placeholder="ECE2238B"
         />
 
@@ -206,7 +271,8 @@ class App extends Component {
     Co-erequisites: <input
           type="text"
           name= "co"
-          onChange={this.handleChange}
+          value={this.state.co}
+          onChange={(e) => this.setState({ co: e.target.value })}
           placeholder="ECE2238B"
           
         />
@@ -216,12 +282,14 @@ class App extends Component {
     <h4>CEAB Academic Units: Engineering Science {<input className='shortText'
           type="number"
           name="CEAB"
-          onChange={this.handleChange}
+          value={this.state.CEAB}
+          onChange={(e) => this.setState({ CEAB: e.target.value })}
           placeholder="X%"
         />} Engineering Design {<input className='shortText'
         type="number"
         name="nameDes"
-        onChange={this.handleChange}
+        value={this.state.nameDes}
+            onChange={(e) => this.setState({ nameDes: e.target.value })}
         placeholder="Y%"
       />}
            </h4>
@@ -231,7 +299,8 @@ class App extends Component {
        {<textarea className = "desc"
             type="text"
             name="reqText"
-             onChange={this.handleChange}
+            value={this.state.reqText}
+            onChange={(e) => this.setState({ reqText: e.target.value })}
             placeholder=""
           />}
           </p>
@@ -240,7 +309,8 @@ class App extends Component {
        {<textarea className = "desc"
             type="text"
             name="reqRef"
-             onChange={this.handleChange}
+            value={this.state.reqRef}
+            onChange={(e) => this.setState({ reqRef: e.target.value })}
             placeholder=""
           />}
           </p>
@@ -249,7 +319,8 @@ class App extends Component {
        {<textarea className = "desc"
             type="text"
             name="recRef"
-             onChange={this.handleChange}
+            value={this.state.recRef}
+            onChange={(e) => this.setState({ recRef: e.target.value })}
             placeholder=""
           />}
           </p>
@@ -260,21 +331,24 @@ class App extends Component {
     <td><input className='shortText'
         type="text"
         name="knowledge"
-        onChange={this.handleChange}
+        value={this.state.knowledge}
+            onChange={(e) => this.setState({ knowledge: e.target.value })}
         placeholder="x"
       /></td>
     <td>Use of Engineering Tools</td>
     <td><input className='shortText'
         type="text"
         name= "engTools"
-        onChange={this.handleChange}
+        value={this.state.engTools}
+            onChange={(e) => this.setState({ engTools: e.target.value })}
         placeholder="x"
       /></td>
     <td>Impact on Society and the Environment</td>
     <td><input className='shortText'
         type="text"
         name="impact"
-        onChange={this.handleChange}
+        value={this.state.impact}
+        onChange={(e) => this.setState({ impact: e.target.value })}
         placeholder="x"
       /></td>
   </tr>
@@ -283,21 +357,24 @@ class App extends Component {
     <td><input className='shortText'
         type="text"
         name="probAnaly"
-        onChange={this.handleChange}
+        value={this.state.probAnaly}
+        onChange={(e) => this.setState({ probAnaly: e.target.value })}
         placeholder="x"
       /></td>
     <td>Individual and Team Work</td>
     <td><input className='shortText'
         type="text"
         name="teamWork"
-        onChange={this.handleChange}
+        value={this.state.teamWork}
+        onChange={(e) => this.setState({ teamWork: e.target.value })}
         placeholder="x"
       /></td>
     <td>Ethics and Equity</td>
     <td><input className='shortText'
         type="text"
         name="ethics"
-        onChange={this.handleChange}
+        value={this.state.ethics}
+        onChange={(e) => this.setState({ ethics: e.target.value })}
         placeholder="x"
       /></td>
   </tr>
@@ -306,21 +383,24 @@ class App extends Component {
     <td><input className='shortText'
         type="text"
         name="investigation"
-        onChange={this.handleChange}
+        value={this.state.investigation}
+            onChange={(e) => this.setState({ investigation: e.target.value })}
         placeholder="x"
       /></td>
     <td>Communication Skills</td>
     <td><input className='shortText'
         type="text"
         name="comSkills"
-        onChange={this.handleChange}
+        value={this.state.comSkills}
+        onChange={(e) => this.setState({ comSkills: e.target.value })}
         placeholder="x"
       /></td>
     <td>Economics and Project Management</td>
     <td><input className='shortText'
         type="text"
         name="economics"
-        onChange={this.handleChange}
+        value={this.state.economics}
+        onChange={(e) => this.setState({ economics: e.target.value })}
         placeholder="x"
       /></td>
   </tr>
@@ -329,21 +409,24 @@ class App extends Component {
     <td><input className='shortText'
         type="text"
         name="design"
-        onChange={this.handleChange}
+        value={this.state.design}
+        onChange={(e) => this.setState({ design: e.target.value })}
         placeholder="x"
       /></td>
     <td>Professionalism</td>
     <td><input className='shortText'
         type="text"
         name="professional"
-        onChange={this.handleChange}
+        value={this.state.professional}
+        onChange={(e) => this.setState({ professional: e.target.value })}
         placeholder="x"
       /></td>
     <td>Life-Long Learning</td>
     <td><input className='shortText'
         type="text"
         name="learning"
-        onChange={this.handleChange}
+        value={this.state.learning}
+        onChange={(e) => this.setState({ leanring: e.target.value })}
         placeholder="x"
       /></td>
   </tr>
@@ -360,7 +443,8 @@ class App extends Component {
     <td className = "attributes" ><input className='desc2'
         type="text"
         name="topic1"
-        onChange={this.handleChange}
+        value={this.state.topic1}
+        onChange={(e) => this.setState({ topic1: e.target.value })}
         placeholder=""
       />  </td>
   </tr>
@@ -373,7 +457,8 @@ class App extends Component {
     <td>a. <textarea className = "desc"
             type="text"
             name="a"
-             onChange={this.handleChange}
+            value={this.state.a}
+            onChange={(e) => this.setState({ a: e.target.value })}
             placeholder=""
           /></td>
     
@@ -382,7 +467,8 @@ class App extends Component {
     <td>b.<textarea className = "desc"
             type="text"
             name="b"
-             onChange={this.handleChange}
+            value={this.state.b}
+            onChange={(e) => this.setState({ b: e.target.value })}
             placeholder=""
           /></td>
     
@@ -392,7 +478,8 @@ class App extends Component {
     <td className = "attributes"><input className='desc2'
         type="text"
         name="topic2"
-        onChange={this.handleChange}
+        value={this.state.topic2}
+        onChange={(e) => this.setState({ topic2: e.target.value })}
         placeholder=""
       /> </td>
   </tr>
@@ -404,7 +491,8 @@ class App extends Component {
     <td>a. <textarea className = "desc"
             type="text"
             name="a2"
-             onChange={this.handleChange}
+            value={this.state.a2}
+            onChange={(e) => this.setState({ a2: e.target.value })}
             placeholder=""
           /></td>
     
@@ -413,7 +501,8 @@ class App extends Component {
     <td>b. <textarea className = "desc"
             type="text"
             name="b2"
-             onChange={this.handleChange}
+            value={this.state.b2}
+            onChange={(e) => this.setState({ b2: e.target.value })}
             placeholder=""
           /></td>
     
@@ -423,7 +512,8 @@ class App extends Component {
     <td className = "attributes"><input className='desc2'
         type="text"
         name="topic3"
-        onChange={this.handleChange}
+        value={this.state.topic3}
+        onChange={(e) => this.setState({ topic3: e.target.value })}
         placeholder=""
       /> </td>
   </tr>
@@ -435,7 +525,8 @@ class App extends Component {
     <td>a. <textarea className = "desc"
             type="text"
             name="a3"
-             onChange={this.handleChange}
+            value={this.state.a3}
+            onChange={(e) => this.setState({ a3: e.target.value })}
             placeholder=""
           /></td>
     
@@ -444,7 +535,8 @@ class App extends Component {
     <td>b. <textarea className = "desc"
             type="text"
             name="b3"
-             onChange={this.handleChange}
+            value={this.state.b3}
+            onChange={(e) => this.setState({ b3: e.target.value })}
             placeholder=""
           /></td>
     
@@ -462,7 +554,8 @@ class App extends Component {
     <td ><input className='shortText'
           type="number"
           name="hwAssign"
-          onChange={this.handleChange}
+          value={this.state.hwAssign}
+          onChange={(e) => this.setState({ hwAssign: e.target.value })}
           placeholder="X"
         />%</td>
   </tr>
@@ -471,7 +564,8 @@ class App extends Component {
     <td ><input className='shortText'
           type="number"
           name="quizzes"
-          onChange={this.handleChange}
+          value={this.state.quizzes}
+          onChange={(e) => this.setState({ quizzes: e.target.value })}
           placeholder="X"
         />%</td>
   </tr>
@@ -480,7 +574,8 @@ class App extends Component {
     <td ><input className='shortText'
           type="number"
           name="lab"
-          onChange={this.handleChange}
+          value={this.state.lab}
+            onChange={(e) => this.setState({ lab: e.target.value })}
           placeholder="X"
         />%</td>
   </tr>
@@ -489,7 +584,8 @@ class App extends Component {
     <td >{<input className='shortText'
           type="number"
           name="midterm"
-          onChange={this.handleChange}
+          value={this.state.midterm}
+          onChange={(e) => this.setState({ midterm: e.target.value })}
           placeholder="X"
         />}%</td>
   </tr>
@@ -504,7 +600,8 @@ class App extends Component {
        <textarea className = "desc"
             type="text"
             name="hwAssign2"
-             onChange={this.handleChange}
+            value={this.state.hwAssign2}
+            onChange={(e) => this.setState({ hwAssign2: e.target.value })}
             placeholder=""
           />
 
@@ -514,7 +611,8 @@ class App extends Component {
        <textarea className = "desc"
             type="text"
             name="quizzes2"
-             onChange={this.handleChange}
+            value={this.state.quizzes2}
+            onChange={(e) => this.setState({ quizzes2: e.target.value })}
             placeholder=""
           />
 
@@ -524,7 +622,8 @@ class App extends Component {
        <textarea className = "desc"
             type="text"
             name="labora2"
-             onChange={this.handleChange}
+            value={this.state.labora2}
+            onChange={(e) => this.setState({ labora2: e.target.value })}
             placeholder=""
           />
 
@@ -534,7 +633,8 @@ class App extends Component {
        <textarea className = "desc"
             type="text"
             name="midterm2"
-             onChange={this.handleChange}
+            value={this.state.midterm2}
+            onChange={(e) => this.setState({ midterm2: e.target.value })}
             placeholder=""
           />
 
@@ -546,7 +646,8 @@ class App extends Component {
        <textarea className = "desc"
             type="text"
             name="submission"
-             onChange={this.handleChange}
+            value={this.state.submission}
+            onChange={(e) => this.setState({ submission: e.target.value })}
             placeholder=""
           />
 
@@ -555,7 +656,8 @@ class App extends Component {
        <h5> Locker {<input className='shortText'
           type="number"
           name="locker"
-          onChange={this.handleChange}
+          value={this.state.locker}
+          onChange={(e) => this.setState({ locker: e.target.value })}
           placeholder="X"
         />} located on the second floor of TEB</h5>
 <h4>Use of English:</h4><h5> In accordance with Senate and Faculty Policy, students may be penalized up to 10% of the marks on all assignments, tests, and examinations for improper use of English. Additionally, poorly written work with the exception of the final examination may be returned without grading. If resubmission of the work is permitted, it may be graded with marks deducted for poor English and/or late submission </h5>
@@ -584,13 +686,15 @@ Scholastic offences are taken seriously and students are directed to read the ap
  <h4>Use of Electronic Devices: </h4><h5> { <textarea className = "desc"
             type="text"
             name="devices"
-             onChange={this.handleChange}
+            value={this.state.devices}
+            onChange={(e) => this.setState({ devices: e.target.value })}
             placeholder=""
           />}  </h5>
           <h4>Use of Personal Response Devices (“Clickers”):  </h4><h5> { <textarea className = "desc"
             type="text"
             name="clickers"
-             onChange={this.handleChange}
+            value={this.state.clickers}
+            onChange={(e) => this.setState({ clickers: e.target.value })}
             placeholder=""
           />}  </h5>
 
