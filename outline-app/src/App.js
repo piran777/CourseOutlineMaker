@@ -4,7 +4,14 @@ import { saveAs } from 'file-saver';
 import { Document, Page, PDFViewer, Text, View } from '@react-pdf/renderer';
 
 
-
+// axios.get(`/outlineLoader/${this.state.value}`)
+// .then ((respone) => {
+//   console.log(respone.data)
+// })
+// .catch((error) => {
+//   console.log(error);
+//   // handle error
+// });
 class App extends Component {
   
   state = {
@@ -80,6 +87,8 @@ class App extends Component {
         saveAs(pdfBlob, `${this.state.value}.pdf`);
       })
   }
+
+ 
 
   render() {
     return (

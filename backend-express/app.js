@@ -8,6 +8,7 @@ const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 const User = require('./Authentication/userModel');
 
+
 const app = express();
 const PORT = 4200;
 var corsOptions = { origin: 'http://localhost:' + PORT, optionsSuccessStatus: 200, credentials: true };
@@ -34,6 +35,20 @@ app.post('/outline', (req, res) => {
         res.send((data ? data : error));
     });
 });
+
+
+app.get('/outlineLoader/:value', (req, res) => {
+    const { value } = req.params;
+    database.collection('outline').find({ value }).toArray((error, data) => {
+      if (error) {
+        console.log(error);
+        res.status(500).send(error);
+      } else {
+        console.log(data);
+        res.json(data);
+      }
+    });
+  });
 
 
 //post - pdf generation and fetch
