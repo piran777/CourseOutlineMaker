@@ -57,6 +57,7 @@ app.post('/create-pdf', (req, res) => {
         if (err) {
             res.send(Promise.reject());
         }
+        req.body.timestamp = new Date().toISOString();
         database.collection("outline").insertOne(req.body, function (error, data) {
             res.send(Promise.resolve() && (data ? data : error));
         });
