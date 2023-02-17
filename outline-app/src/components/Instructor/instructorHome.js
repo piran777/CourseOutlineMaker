@@ -31,7 +31,7 @@ const InstructorHome = () => {
                 <Link to="/pdf">
                     <li>Create Outline</li>
                 </Link>
-                <Link to="">
+                <Link to="/DisplayPdf">
                     <li>Previous Outlines</li>
                 </Link>
                 <Link to="/login">
