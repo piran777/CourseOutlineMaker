@@ -14,11 +14,11 @@ root.render(
   <BrowserRouter>
   <Routes>
       <Route path = '/' element = {<CurrentUser></CurrentUser>}/>
-      <Route path = "/login" element = {<Login />} component = {CurrentUser}/>
+      <Route path = "/login" element = {<Login />}/>
       <Route path = "/register" element = {<Register />}/>
-      <Route path = "/assign-instructor" element = {<AssignInstructor />}/>
+      <Route path = "/assign-instructor" element = {<PrivateRoute><AssignInstructor />admin</PrivateRoute>}/>
 
-      <Route path = "/pdf" exact element = {<App />}></Route>
+      <Route path = "/pdf" exact element = {<PrivateRoute><App />instructor</PrivateRoute>}></Route>
 
       <Route path = "/test" element = {<PrivateRoute><Register />instructor</PrivateRoute>}/>
       
