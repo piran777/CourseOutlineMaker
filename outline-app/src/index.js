@@ -19,12 +19,11 @@ root.render(
         <Route path = '/' element = {<CurrentUser></CurrentUser>}/>
         <Route path = "/login" element = {<Login />} component = {CurrentUser}/>
         <Route path = "/register" element = {<Register />}/>
-        <Route path = "/pdf" exact element = {<App />}></Route>
-        <Route path = "/test" element = {<PrivateRoute><Register /></PrivateRoute>}/>  
-        <Route path = "/instructor/:fname" element = {<InstructorHome />} />
-        <Route path = "/assign-instructor" element = {<AssignInstructor />}/>
+        <Route path = "/pdf" exact element = {<PrivateRoute><App />instructor</PrivateRoute>}></Route> 
+        <Route path = "/instructor/:fname" element = {<PrivateRoute><InstructorHome />instructor</PrivateRoute>} />
+        <Route path = "/assign-instructor" element = {<PrivateRoute><AssignInstructor />admin</PrivateRoute>}/>
         <Route path = "/DisplayPdf" exact element = {<DisplayPdf />}></Route>
-        <Route path = "/EditPDF" exact element = {<EditPDF />}></Route>
+        <Route path = "/EditPDF" exact element = {<PrivateRoute><EditPDF />instructor</PrivateRoute>}></Route>
     </Routes>
   </BrowserRouter>
 );
