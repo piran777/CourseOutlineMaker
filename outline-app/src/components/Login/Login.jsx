@@ -30,12 +30,11 @@ export default function Index() {
 
             if(data) {
                 //Redirects to home page
-
-                //Needs testing
-                navigate('../instructor/' + localStorage.getItem("Name"));
-                
                 localStorage.setItem('Name', data.user.firstName + ' ' + data.user.lastName);
                 localStorage.setItem('Position', data.user.position);
+                
+                //Needs testing
+                navigate('../instructor/' + localStorage.getItem("Name"));
             }
 
         } catch (err) {
