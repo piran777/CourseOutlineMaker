@@ -51,27 +51,29 @@ export default function Index() {
     }
 
     return (
-        <div>
-            <form onSubmit = {handleSubmit}>
-                <h1>Register</h1>
-                <label htmlFor = "firstName">First Name</label>
-                <input type="text" name = "firstName" onChange={handleChange} value = {info.firstName} required />
-                <div className="firstName_error"></div>
+        <div className='regBack'>
+            <div className='Register'>
+                <form onSubmit = {handleSubmit}>
+                    <h1>Register</h1>
+                    <label htmlFor = "firstName">First Name</label>
+                    <input type="text" name = "firstName" onChange={handleChange} value = {info.firstName} required />
+                    <div className="firstName_error"></div>
 
-                <label htmlFor = "lastName">Last Name</label>
-                <input type="text" name = "lastName" onChange={handleChange} value = {info.lastName} required />
-                <div className="lastName_error"></div>
+                    <label htmlFor = "lastName">Last Name</label>
+                    <input type="text" name = "lastName" onChange={handleChange} value = {info.lastName} required />
+                    <div className="lastName_error"></div>
 
-                <label htmlFor = "email">Email</label>
-                <input type="text" name = "email" onChange={handleChange} value = {info.email} required />
-                <div className="email_error"></div>
+                    <label htmlFor = "email">Email</label>
+                    <input type="text" name = "email" onChange={handleChange} value = {info.email} required />
+                    <div className="email_error"></div>
 
-                <label htmlFor="password">Password</label>
-                <input type="password" name = "password" onChange={handleChange} value = {info.password} required />
-                <div className="password_error"></div>
+                    <label htmlFor="password">Password</label>
+                    <input type="password" name = "password" onChange={handleChange} value = {info.password} required />
+                    <div className="password_error"></div>
 
-                <button>Sign up</button>
-            </form>
+                    <button>Sign up</button>
+                </form>
+            </div>
         </div>
     )
 }

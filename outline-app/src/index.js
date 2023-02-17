@@ -9,25 +9,23 @@ import PrivateRoute from './PrivateRoutes/PrivateRoutes';
 import CurrentUser from './CurrentUser/CurrentUser';
 import Login from './components/Login/Login';
 import Register from './components/Register/Register';
+import InstructorHome from './components/Instructor/instructorHome';
 import AssignInstructor from './components/AssignInstructor/AssignInstructor';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
-  <Routes>
-      <Route path = '/' element = {<CurrentUser></CurrentUser>}/>
-      <Route path = "/login" element = {<Login />} component = {CurrentUser}/>
-      <Route path = "/register" element = {<Register />}/>
-      <Route path = "/assign-instructor" element = {<AssignInstructor />}/>
-
-      <Route path = "/pdf" exact element = {<App />}></Route>
-
-      <Route path = "/test" element = {<PrivateRoute><Register /></PrivateRoute>}/>
-      <Route path = "/DisplayPdf" exact element = {<DisplayPdf />}></Route>
-      <Route path = "/EditPDF" exact element = {<EditPDF />}></Route>
-      
-      
-  </Routes>
+    <Routes>
+        <Route path = '/' element = {<CurrentUser></CurrentUser>}/>
+        <Route path = "/login" element = {<Login />} component = {CurrentUser}/>
+        <Route path = "/register" element = {<Register />}/>
+        <Route path = "/pdf" exact element = {<App />}></Route>
+        <Route path = "/test" element = {<PrivateRoute><Register /></PrivateRoute>}/>  
+        <Route path = "/instructor/:fname" element = {<InstructorHome />} />
+        <Route path = "/assign-instructor" element = {<AssignInstructor />}/>
+        <Route path = "/DisplayPdf" exact element = {<DisplayPdf />}></Route>
+        <Route path = "/EditPDF" exact element = {<EditPDF />}></Route>
+    </Routes>
   </BrowserRouter>
 );
 
