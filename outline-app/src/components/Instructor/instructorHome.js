@@ -7,6 +7,22 @@ const InstructorHome = () => {
 
     const location = useLocation();
     const { fname } = useParams();
+    const navigate = useNavigate();
+
+    const logout = async () => {
+        try {
+            const url = '/logout';
+
+            const res = await axios.get(url, {
+            })
+            .then(function (response) {
+                localStorage.removeItem('Name');
+                localStorage.removeItem('Position');
+            })
+        } catch (err) {
+            console.log(err.response.data);
+        }
+    }
 
     return (
         <div className='Instructor'>
@@ -15,11 +31,11 @@ const InstructorHome = () => {
                 <Link to="/pdf">
                     <li>Create Outline</li>
                 </Link>
-                <Link to="/register">
+                <Link to="">
                     <li>Previous Outlines</li>
                 </Link>
                 <Link to="/login">
-                    <li id="logout">Logout</li>
+                    <li id="logout" onClick={logout}>Logout</li>
                 </Link>
             </nav>
 
