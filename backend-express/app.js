@@ -8,6 +8,7 @@ const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 const User = require('./Authentication/userModel');
 
+
 const app = express();
 const PORT = 4200;
 var corsOptions = { origin: 'http://localhost:' + PORT, optionsSuccessStatus: 200, credentials: true };
@@ -35,6 +36,124 @@ app.post('/outline', (req, res) => {
     });
 });
 
+/*app.get('/getOutline/:value', (req, res) => {
+    const name = req.params.value;
+    database.collection("outline").find({ value: name }).toArray(function (error, data) {
+        res.send((data ? data : error));
+    });
+});*/
+
+app.get('/getPdfNames', (req, res) => {
+    database.collection('outline').find({}).toArray((error, data) => {
+      if (error) {
+        res.send(error);
+      } else {
+        const pdfNames = data.map(pdf => pdf.value);
+        res.send(pdfNames);
+      }
+    });
+  });
+  
+
+app.get('/getOutline/:value', (req, res) => {
+    const name = req.params.value;
+    database.collection("outline").find({ value: name }).toArray(function (error, data) {
+        if (error) {
+            res.send(error);
+        } else {
+            let outlineData = data.map(function (d) {
+                return {
+                    code: d.code,
+                    course: d.course,
+                    year: d.year,
+                    desc: d.desc,
+                    instructor: d.instructor,
+                    calendar: d.calendar,
+                    contact: d.contact,
+                    hours: d.hours,
+                    labhours: d.labhours,
+                    anti: d.anti,
+                    pre: d.pre,
+                    co: d.co,
+                    CEAB: d.CEAB,
+                    nameDes: d.nameDes,
+                    reqText: d.reqText,
+                    reqRef: d.reqRef,
+                    recRef: d.recRef,
+                    knowledge: d.knowledge,
+                    engTools: d.engTools,
+                    impact: d.impact,
+                    probAnaly: d.probAnaly,
+                    teamWork: d.teamWork,
+                    ethics: d.ethics,
+                    investigation: d.investigation,
+                    comSkills: d.comSkills,
+                    economics: d.economics,
+                    design: d.design,
+                    professional: d.professional,
+                    learning: d.learning,
+                    topic1: d.topic1,
+                    a: d.a,
+                    b: d.b,
+                    topic2: d.topic2,
+                    a2: d.a2,
+                    b2: d.b2,
+                    topic3: d.topic3,
+                    a3: d.a3,
+                    b3: d.b3,
+                    hwAssign: d.hwAssign,
+                    quizzes: d.quizzes,
+                    lab: d.lab,
+                    midterm: d.midterm,
+                    hwAssign2: d.hwAssign2,
+                    quizzes2: d.quizzes2,
+                    labora2: d.labora2,
+                    midterm2: d.midterm2,
+                    submission: d.submission,
+                    locker: d.locker,
+                    devices: d.devices,
+                    clickers: d.clickers,
+                    outlineName: d.outlineName,
+
+                };
+            });
+            res.send(outlineData);
+        }
+    });
+});
+
+
+app.post('/updatePDF/:value', (req, res) => {
+    const name = req.params.value;
+    const updatedData = req.body;
+    database.collection("outline").updateOne({ value: name }, { $set: updatedData }, function (error, result) {
+        if (error) {
+            res.send({
+                message: "Error updating document",
+                error: error
+            });
+        } else {
+            res.send({
+                message: "Document updated successfully"
+            });
+        }
+    });
+});
+
+
+app.get('/outlineLoader/:value', (req, res) => {
+    const { value } = req.params;
+    database.collection('outline').find({ value }).toArray((error, data) => {
+      if (error) {
+        console.log(error);
+        res.status(500).send(error);
+      } else {
+        res.json(data);
+      }
+    });
+  });
+
+
 
 //post - pdf generation and fetch
 app.post('/create-pdf', (req, res) => {
@@ -42,6 +161,7 @@ app.post('/create-pdf', (req, res) => {
         if (err) {
             res.send(Promise.reject());
         }
+        req.body.timestamp = new Date().toISOString();
         database.collection("outline").insertOne(req.body, function (error, data) {
             res.send(Promise.resolve() && (data ? data : error));
         });

@@ -1,12 +1,14 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import {useNavigate, Link} from 'react-router-dom';
+import './Login.css'
 
 export default function Index() {
     const navigate = useNavigate();
 
     const [login, setLogin] = useState({email: '', password: ''});
+    const [fname, setfname] = useState("");
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -28,6 +30,10 @@ export default function Index() {
 
             if(data) {
                 //Redirects to home page
+
+                //Needs testing
+                navigate('../instructor/' + localStorage.getItem("Name"));
+                
                 localStorage.setItem('Name', data.user.firstName + ' ' + data.user.lastName);
                 localStorage.setItem('Position', data.user.position);
             }
@@ -46,7 +52,8 @@ export default function Index() {
     }
 
     return (
-        <div>
+        <div className='loginBack'>
+        <div className='Login'>
             <form onSubmit = {handleSubmit}>
                 <h1>Log In</h1>
                 <label htmlFor = "email">Email</label>
@@ -59,6 +66,7 @@ export default function Index() {
 
                 <button>Log In</button>
             </form>
+        </div>
         </div>
     )
 }

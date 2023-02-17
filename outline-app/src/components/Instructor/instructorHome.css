@@ -1,0 +1,83 @@
+.Instructor nav {
+    padding: 30px;
+    background: rgb(37, 147, 194);
+    background: linear-gradient(90deg, rgba(37,147,194,1) 0%, rgba(153,195,214,1) 68%, rgba(214,214,214,1) 95%); 
+}
+
+.Instructor nav li {
+    display: flex;
+    float: left;
+    margin-left: 30px;
+    background-color: rgb(230,230,230);
+    padding: 5px;
+    border-radius: 5px;
+}
+
+#logout {
+    float: right;
+}
+
+.Instructor nav a {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    margin: 20px;
+}
+
+.Instructor {
+    background: linear-gradient(rgb(50,50,50), rgb(150,150,150));
+    height: 100vh;
+    font-family: Arial, sans-serif;
+}
+
+.Instructor h1 {
+    color: #80c4e0;
+    text-align: center;
+}
+
+.currentOutlines {
+    display: block;
+    margin: auto;
+    width:fit-content;
+    float:inline-end;
+    text-align: center;
+    margin-top: 10vh;
+}
+
+.currentOutlines h3 {
+    font-weight: bold;
+    color: rgb(230,230,230);
+}
+
+.currentOutlines ul {
+    display: block;
+    background-color: #80c4e0;
+    background: linear-gradient(#96c6db, #6099b1);
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.currentOutlines li {
+    display: block;
+    font-size: 18px;
+    background-color: rgb(210,210,210);
+    margin: 10px;
+    padding-inline: 5px;
+    border-radius: 10px;
+}
+
+.currentOutlines button {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-inline: 10px;
+    margin: 5px;
+}
+
+.currentOutlines .open {
+    margin-left: 25px;
+    background-color: rgb(200,200,200);
+}
+
+.currentOutlines .del {
+    background-color: #d9b9b9;
+}
