@@ -8,6 +8,7 @@ const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 const User = require('./Authentication/userModel');
 
+
 const app = express();
 const PORT = 4200;
 var corsOptions = { origin: 'http://localhost:' + PORT, optionsSuccessStatus: 200, credentials: true };
@@ -121,6 +122,7 @@ app.get('/getOutline/:value', (req, res) => {
     });
 });
 
+
 app.post('/updatePDF/:value', (req, res) => {
     const name = req.params.value;
     const updatedData = req.body;
@@ -138,6 +140,19 @@ app.post('/updatePDF/:value', (req, res) => {
     });
 });
 
+
+app.get('/outlineLoader/:value', (req, res) => {
+    const { value } = req.params;
+    database.collection('outline').find({ value }).toArray((error, data) => {
+      if (error) {
+        console.log(error);
+        res.status(500).send(error);
+      } else {
+        console.log(data);
+        res.json(data);
+      }
+    });
+  });
 
 
 
@@ -203,6 +218,24 @@ app.get('/checkuser', (req, res) => {
 
     }
 })
+
+// Instructors
+app.get('/instructors', (req, res) => {
+    const authDb = mongoose.connection.useDb('auth');
+    authDb.collection("users").find({ position: "instructor" }).toArray(function (error, data) {
+        res.send((data ? data : error));
+    });
+});
+app.post('/instructors', (req, res) => {
+    database.collection("instructors").insertOne(req.body, function (error, data) {
+        res.send(Promise.resolve() && (data ? data : error));
+    });
+});
+app.get('/instructors/assigned', (req, res) => {
+    database.collection("instructors").find().toArray(function (error, data) {
+        res.send((data ? data : error));
+    });
+});
 
 app.listen(PORT, (error) => {
     if (!error)
