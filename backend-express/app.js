@@ -237,6 +237,18 @@ app.get('/instructors/assigned', (req, res) => {
     });
 });
 
+// Non-approved Data
+app.get('/non-approved', (req, res) => {
+    database.collection("non-approved-outlines").find().toArray(function (error, data) {
+        res.send((data ? data : error));
+    });
+});
+app.post('/non-approved', (req, res) => {
+    database.collection("non-approved-outlines").insertOne(req.body, function (error, data) {
+        res.send(Promise.resolve() && (data ? data : error));
+    });
+});
+
 app.listen(PORT, (error) => {
     if (!error)
         console.log("Server is Successfully Running, and App is listening on port " + PORT)
