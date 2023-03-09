@@ -61,6 +61,7 @@ class App extends Component {
         devices: "",
         clickers: "",
         outlineName:"",
+        JustifyChange: "",
         
       
     }
@@ -82,6 +83,9 @@ class App extends Component {
       })
   }
 
+  callPdfBackend = () => {
+    axios.post('/create-pdf', this.state)
+      .then(() => axios.get('fetch-pdf', { responseType: 'blob' }))}
   
 
   
@@ -142,6 +146,7 @@ class App extends Component {
         devices: data.devices,
         clickers: data.clickers,
         outlineName: data.outlineName,
+        JustifyChange: data.JustifyChange,
       });
     })
        
@@ -149,7 +154,7 @@ class App extends Component {
       .catch((error) => {
         console.log(error);
       });
-      this.setState({error: "done"})
+      
   };
   
   handleChangeNew = (e) =>{
@@ -711,9 +716,17 @@ Scholastic offences are taken seriously and students are directed to read the ap
 
 Students who are in emotional/mental distress should refer to Mental Health @ Western, <a href=" http://www.health.uwo.ca/mental_health/"> http://www.health.uwo.ca/mental_health/</a>, for a complete list of options about how to obtain help
  </h5>
+ <h4>Justification:</h4>
+ <textarea className = "desc"
+            type="text"
+            name="JustifyChange"
+            value={this.state.JustifyChange}
+            onChange={(e) => this.setState({ JustifyChange: e.target.value })}
+            placeholder=""
+          />
 
        </div>
-     
+       
       <input
       type = "text"
       name ="outlineName"
@@ -725,6 +738,9 @@ Students who are in emotional/mental distress should refer to Mental Health @ We
       <input type="text" onChange={this.handleChangeNew}  />
       
       <button type="submit">Load </button>
+
+     
+         
     
     </div>
     
