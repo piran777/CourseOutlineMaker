@@ -46,6 +46,16 @@ app.post('/outline/approve', (req, res) => {
     });
 });
 
+app.post('/outline/disapprove', (req, res) => {
+    // Delete by id from non approved, then add to disapproved list
+    database.collection("non-approved-outlines").deleteOne({_id: mongoose.Types.ObjectId(req.body._id.$oid)}, function (error, data) {
+        delete req.body._id;
+        database.collection("reviewed-outlines").insertOne(req.body, function (error, data) {
+            res.send((data ? data : error));
+        });
+    });
+});
+
 /*app.get('/getOutline/:value', (req, res) => {
     const name = req.params.value;
     database.collection("outline").find({ value: name }).toArray(function (error, data) {
@@ -281,9 +291,89 @@ app.get('/non-approved', (req, res) => {
         res.send((data ? data : error));
     });
 });
+
 app.post('/non-approved', (req, res) => {
     database.collection("non-approved-outlines").insertOne(req.body, function (error, data) {
         res.send(Promise.resolve() && (data ? data : error));
+    });
+});
+
+app.get('/getNonApprovedPdfNames', (req, res) => {
+    database.collection('non-approved-outlines').find({}).toArray((error, data) => {
+        if (error) {
+            res.send(error);
+        } else {
+            const pdfNames = data.map(pdf => pdf.value);
+            res.send(pdfNames);
+        }
+    });
+});
+
+app.get('/getNonApprovedOutline/:value', (req, res) => {
+    const name = req.params.value;
+    database.collection("non-approved-outlines").find({ value: name }).toArray(function (error, data) {
+        if (error) {
+            res.send(error);
+        } else {
+            let outlineData = data.map(function (d) {
+                return {
+                    code: d.code,
+                    course: d.course,
+                    year: d.year,
+                    desc: d.desc,
+                    instructor: d.instructor,
+                    calendar: d.calendar,
+                    contact: d.contact,
+                    hours: d.hours,
+                    labhours: d.labhours,
+                    anti: d.anti,
+                    pre: d.pre,
+                    co: d.co,
+                    CEAB: d.CEAB,
+                    nameDes: d.nameDes,
+                    reqText: d.reqText,
+                    reqRef: d.reqRef,
+                    recRef: d.recRef,
+                    knowledge: d.knowledge,
+                    engTools: d.engTools,
+                    impact: d.impact,
+                    probAnaly: d.probAnaly,
+                    teamWork: d.teamWork,
+                    ethics: d.ethics,
+                    investigation: d.investigation,
+                    comSkills: d.comSkills,
+                    economics: d.economics,
+                    design: d.design,
+                    professional: d.professional,
+                    learning: d.learning,
+                    topic1: d.topic1,
+                    a: d.a,
+                    b: d.b,
+                    topic2: d.topic2,
+                    a2: d.a2,
+                    b2: d.b2,
+                    topic3: d.topic3,
+                    a3: d.a3,
+                    b3: d.b3,
+                    hwAssign: d.hwAssign,
+                    quizzes: d.quizzes,
+                    lab: d.lab,
+                    midterm: d.midterm,
+                    hwAssign2: d.hwAssign2,
+                    quizzes2: d.quizzes2,
+                    labora2: d.labora2,
+                    midterm2: d.midterm2,
+                    submission: d.submission,
+                    locker: d.locker,
+                    devices: d.devices,
+                    clickers: d.clickers,
+                    outlineName: d.outlineName,
+                    justifyChange: d.JustifyChange,
+                    _id: _id,
+                };
+            });
+            res.send(outlineData);
+        }
     });
 });
 
