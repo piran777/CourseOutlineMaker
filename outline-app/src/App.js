@@ -734,14 +734,9 @@ Students who are in emotional/mental distress should refer to Mental Health @ We
       onChange = { this.handleChange2 } >
       </input>
       <button onClick={this.createAndDownloadPdf}>Download PDF</button>
-    
-      <input type="text" onChange={this.handleChangeNew}  />
       
       <button type="submit">Load </button>
-
-     
-         
-    
+       
     </div>
     
    
