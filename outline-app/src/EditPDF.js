@@ -730,8 +730,6 @@ Students who are in emotional/mental distress should refer to Mental Health @ We
       <input type="text" onChange={this.handleChangeNew}  />
       
       <button type="submit">Load unapproved PDFs</button>
-
-      <input type="text" onChange={this.handleChange2}  />
       
       <button onClick={this.callPdfBackend}>Store as unapproved outline</button>
          
