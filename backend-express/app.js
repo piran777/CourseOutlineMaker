@@ -36,6 +36,16 @@ app.post('/outline', (req, res) => {
     });
 });
 
+app.post('/outline/approve', (req, res) => {
+    // Delete by id from non approved, then add to approved list
+    database.collection("non-approved-outlines").deleteOne({_id: mongoose.Types.ObjectId(req.body._id.$oid)}, function (error, data) {
+        delete req.body._id;
+        database.collection("outline").insertOne(req.body, function (error, data) {
+            res.send((data ? data : error));
+        });
+    });
+});
+
 /*app.get('/getOutline/:value', (req, res) => {
     const name = req.params.value;
     database.collection("outline").find({ value: name }).toArray(function (error, data) {
