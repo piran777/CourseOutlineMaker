@@ -34,6 +34,9 @@ const InstructorHome = () => {
                 <Link to="/DisplayPdf">
                     <li>Previous Outlines</li>
                 </Link>
+                <Link to="/EditPDF">
+                    <li>Unapproved Outlines</li>
+                </Link>
                 <Link to="/login">
                     <li id="logout" onClick={logout}>Logout</li>
                 </Link>
