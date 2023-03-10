@@ -45,15 +45,15 @@ app.post('/outline', (req, res) => {
 
 app.get('/getPdfNames', (req, res) => {
     database.collection('outline').find({}).toArray((error, data) => {
-      if (error) {
-        res.send(error);
-      } else {
-        const pdfNames = data.map(pdf => pdf.value);
-        res.send(pdfNames);
-      }
+        if (error) {
+            res.send(error);
+        } else {
+            const pdfNames = data.map(pdf => pdf.value);
+            res.send(pdfNames);
+        }
     });
-  });
-  
+});
+
 
 app.get('/getOutline/:value', (req, res) => {
     const name = req.params.value;
@@ -144,14 +144,26 @@ app.post('/updatePDF/:value', (req, res) => {
 app.get('/outlineLoader/:value', (req, res) => {
     const { value } = req.params;
     database.collection('outline').find({ value }).toArray((error, data) => {
-      if (error) {
-        console.log(error);
-        res.status(500).send(error);
-      } else {
-        res.json(data);
-      }
+        if (error) {
+            console.log(error);
+            res.status(500).send(error);
+        } else {
+            res.json(data);
+        }
     });
-  });
+});
+
+app.get('/unapproved-outlineLoader/:value', (req, res) => {
+    const { value } = req.params;
+    database.collection('non-approved-outlines').find({ value }).toArray((error, data) => {
+        if (error) {
+            console.log(error);
+            res.status(500).send(error);
+        } else {
+            res.json(data);
+        }
+    });
+});
 
 
 
@@ -163,6 +175,22 @@ app.post('/create-pdf', (req, res) => {
         }
         req.body.timestamp = new Date().toISOString();
         database.collection("outline").insertOne(req.body, function (error, data) {
+            res.send(Promise.resolve() && (data ? data : error));
+        });
+
+    })
+
+
+});
+
+
+app.post('/create-non-approved-pdf', (req, res) => {
+    pdf.create(pdfTemplate(req.body), {}).toFile('result.pdf', (err) => {
+        if (err) {
+            res.send(Promise.reject());
+        }
+        req.body.timestamp = new Date().toISOString();
+        database.collection("non-approved-outlines").insertOne(req.body, function (error, data) {
             res.send(Promise.resolve() && (data ? data : error));
         });
 
