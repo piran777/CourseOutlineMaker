@@ -440,11 +440,7 @@ export default function Index() {
 
             <h4>Justification for Changes: </h4><h5>{data.justifyChange}</h5>
             <h4>Comments to Instructor:</h4>
-            <input
-                type="text"
-                style = {{width: "500px", height: "100px", textAlignVertical: 'top'}}
-                onChange={getComment}
-            />
+            <textarea style = {{width: "500px", height: "100px", textAlignVertical: 'top', paddingTop: 5, paddingLeft: 5}} onChange={getComment}> </textarea>
             <br></br>
             <button onClick={rejectPDF}>Reject Course Outline</button>
             <button onClick={acceptPDF}>Accept Course Outline</button>
