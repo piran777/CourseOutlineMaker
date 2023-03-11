@@ -7,7 +7,8 @@ export default function Index() {
     const [pdfName, setPdfName] = useState('');
     const [outlineNames, setOutlineNames] = useState([]);
     const [comment, setComment] = useState('');
-    let id = '';
+    let rejectedData = {};
+    let acceptedData = {};
 
     const handleChange = event => {
         event.preventDefault();
@@ -35,12 +36,66 @@ export default function Index() {
 
     const rejectPDF = () => {
         outlineData.map(data => (
-            id = data._id
+            rejectedData = {
+                code: data.code,
+                course: data.course,
+                year: data.year,
+                desc: data.desc,
+                instructor: data.instructor,
+                calendar: data.calendar,
+                contact: data.contact,
+                hours: data.hours,
+                labhours: data.labhours,
+                anti: data.anti,
+                pre: data.pre,
+                co: data.co,
+                CEAB: data.CEAB,
+                nameDes: data.nameDes,
+                reqText: data.reqText,
+                reqRef: data.reqRef,
+                recRef: data.recRef,
+                knowledge: data.knowledge,
+                engTools: data.engTools,
+                impact: data.impact,
+                probAnaly: data.probAnaly,
+                teamWork: data.teamWork,
+                ethics: data.ethics,
+                investigation: data.investigation,
+                comSkills: data.comSkills,
+                economics: data.economics,
+                design: data.design,
+                professional: data.professional,
+                learning: data.learning,
+                topic1: data.topic1,
+                a: data.a,
+                b: data.b,
+                topic2: data.topic2,
+                a2: data.a2,
+                b2: data.b2,
+                topic3: data.topic3,
+                a3: data.a3,
+                b3: data.b3,
+                hwAssign: data.hwAssign,
+                quizzes: data.quizzes,
+                lab: data.lab,
+                midterm: data.midterm,
+                hwAssign2: data.hwAssign2,
+                quizzes2: data.quizzes2,
+                labora2: data.labora2,
+                midterm2: data.midterm2,
+                submission: data.submission,
+                locker: data.locker,
+                devices: data.devices,
+                clickers: data.clickers,
+                outlineName: data.outlineName,
+                value: data.value,
+                _id: data._id,
+                comments: comment
+            }
         ))
 
         axios.post('/outline/disapprove', {
-            _id: id,
-            comment: comment
+            data: rejectedData
         })
         .then(function (response) {
             window.location.reload(false);
@@ -49,10 +104,64 @@ export default function Index() {
 
     const acceptPDF = () => {
         outlineData.map(data => (
-            id = data._id
+            acceptedData = {
+                    code: data.code,
+                    course: data.course,
+                    year: data.year,
+                    desc: data.desc,
+                    instructor: data.instructor,
+                    calendar: data.calendar,
+                    contact: data.contact,
+                    hours: data.hours,
+                    labhours: data.labhours,
+                    anti: data.anti,
+                    pre: data.pre,
+                    co: data.co,
+                    CEAB: data.CEAB,
+                    nameDes: data.nameDes,
+                    reqText: data.reqText,
+                    reqRef: data.reqRef,
+                    recRef: data.recRef,
+                    knowledge: data.knowledge,
+                    engTools: data.engTools,
+                    impact: data.impact,
+                    probAnaly: data.probAnaly,
+                    teamWork: data.teamWork,
+                    ethics: data.ethics,
+                    investigation: data.investigation,
+                    comSkills: data.comSkills,
+                    economics: data.economics,
+                    design: data.design,
+                    professional: data.professional,
+                    learning: data.learning,
+                    topic1: data.topic1,
+                    a: data.a,
+                    b: data.b,
+                    topic2: data.topic2,
+                    a2: data.a2,
+                    b2: data.b2,
+                    topic3: data.topic3,
+                    a3: data.a3,
+                    b3: data.b3,
+                    hwAssign: data.hwAssign,
+                    quizzes: data.quizzes,
+                    lab: data.lab,
+                    midterm: data.midterm,
+                    hwAssign2: data.hwAssign2,
+                    quizzes2: data.quizzes2,
+                    labora2: data.labora2,
+                    midterm2: data.midterm2,
+                    submission: data.submission,
+                    locker: data.locker,
+                    devices: data.devices,
+                    clickers: data.clickers,
+                    outlineName: data.outlineName,
+                    value: data.value,
+                    _id: data._id
+                }
         ))
         axios.post('/outline/approve', {
-            _id: id
+            data: acceptedData
         })
         .then(function (response) {
             window.location.reload(false);

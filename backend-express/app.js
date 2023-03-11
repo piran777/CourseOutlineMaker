@@ -38,9 +38,9 @@ app.post('/outline', (req, res) => {
 
 app.post('/outline/approve', (req, res) => {
     // Delete by id from non approved, then add to approved list
-    database.collection("non-approved-outlines").deleteOne({_id: mongoose.Types.ObjectId(req.body._id.$oid)}, function (error, data) {
-        delete req.body._id;
-        database.collection("outline").insertOne(req.body, function (error, data) {
+    database.collection("non-approved-outlines").deleteOne({_id: mongoose.Types.ObjectId(req.body.data._id)}, function (error, data) {
+        delete req.body.data._id;
+        database.collection("outline").insertOne(req.body.data, function (error, data) {
             res.send((data ? data : error));
         });
     });
@@ -48,9 +48,9 @@ app.post('/outline/approve', (req, res) => {
 
 app.post('/outline/disapprove', (req, res) => {
     // Delete by id from non approved, then add to disapproved list
-    database.collection("non-approved-outlines").deleteOne({_id: mongoose.Types.ObjectId(req.body._id.$oid)}, function (error, data) {
-        delete req.body._id;
-        database.collection("reviewed-outlines").insertOne(req.body, function (error, data) {
+    database.collection("non-approved-outlines").deleteOne({_id: mongoose.Types.ObjectId(req.body.data._id)}, function (error, data) {
+        delete req.body.data._id;
+        database.collection("reviewed-outlines").insertOne(req.body.data, function (error, data) {
             res.send((data ? data : error));
         });
     });
