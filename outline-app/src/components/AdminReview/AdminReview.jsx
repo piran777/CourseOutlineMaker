@@ -7,6 +7,7 @@ export default function Index() {
     const [pdfName, setPdfName] = useState('');
     const [outlineNames, setOutlineNames] = useState([]);
     const [comment, setComment] = useState('');
+    let id = '';
 
     const handleChange = event => {
         event.preventDefault();
@@ -33,18 +34,25 @@ export default function Index() {
     }, []);
 
     const rejectPDF = () => {
+        outlineData.map(data => (
+            id = data._id
+        ))
+
         axios.post('/outline/disapprove', {
-            _id: outlineData._id,
+            _id: id,
             comment: comment
         })
         .then(function (response) {
             window.location.reload(false);
-        })
+        }) 
     }
 
     const acceptPDF = () => {
+        outlineData.map(data => (
+            id = data._id
+        ))
         axios.post('/outline/approve', {
-            _id: outlineData._id
+            _id: id
         })
         .then(function (response) {
             window.location.reload(false);
@@ -325,7 +333,7 @@ export default function Index() {
             <h4>Comments to Instructor:</h4>
             <input
                 type="text"
-                style = {{width: "500px", height: "100px"}}
+                style = {{width: "500px", height: "100px", textAlignVertical: 'top'}}
                 onChange={getComment}
             />
             <br></br>

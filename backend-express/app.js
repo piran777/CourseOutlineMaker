@@ -369,7 +369,7 @@ app.get('/getNonApprovedOutline/:value', (req, res) => {
                     clickers: d.clickers,
                     outlineName: d.outlineName,
                     justifyChange: d.JustifyChange,
-                    _id: _id,
+                    _id: d._id,
                 };
             });
             res.send(outlineData);
