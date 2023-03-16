@@ -93,7 +93,9 @@ class App extends Component {
     event.preventDefault();
     
     axios.get(`http://localhost:4200/outlineLoader/${this.state.value}`).then(response => {
-      const data = response.data[0];
+      let i =0;
+      
+      const data = response.data[response.data.length-1];
       this.setState({
         code: data.code,
         course: data.course,
@@ -147,6 +149,7 @@ class App extends Component {
         clickers: data.clickers,
         outlineName: data.outlineName,
         JustifyChange: data.JustifyChange,
+        
       });
     })
        
