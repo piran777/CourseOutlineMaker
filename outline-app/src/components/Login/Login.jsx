@@ -33,8 +33,15 @@ export default function Index() {
                 localStorage.setItem('Name', data.user.firstName + ' ' + data.user.lastName);
                 localStorage.setItem('Position', data.user.position);
                 
-                //Needs testing
-                navigate('../instructor/' + localStorage.getItem("Name"));
+                //
+                let position = localStorage.getItem('Position')
+
+                // Depending on the position, route to instructor/admin home
+                if(position == 'admin'){
+                    navigate('../assign-instructor');
+                } else {
+                    navigate('../instructor/' + localStorage.getItem("Name"));
+                }
             }
 
         } catch (err) {
