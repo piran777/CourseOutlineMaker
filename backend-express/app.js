@@ -298,6 +298,29 @@ app.post('/non-approved', (req, res) => {
     });
 });
 
+// New Outline Notifications
+
+// used by instructor homepage
+app.get('/new-outline', (req, res) => {
+    
+    let instructorName = req.body;
+
+    database.collection("new-assigned-outlines").find({instructor: instructorName}).toArray(function (error, data) {
+        res.send((data ? data : error));
+    });
+});
+
+// Used by assign-instructor
+app.post('/new-outline', (req, res) => {
+    database.collection("new-assigned-outlines").insertOne(req.body, function (error, data) {
+        res.send(Promise.resolve() && (data ? data : error));
+    });
+});
+
+app.delete('/new-outline', (req, res) => {
+
+})
+
 app.get('/getNonApprovedPdfNames', (req, res) => {
     database.collection('non-approved-outlines').find({}).toArray((error, data) => {
         if (error) {
