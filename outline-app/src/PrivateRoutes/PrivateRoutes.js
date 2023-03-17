@@ -30,23 +30,30 @@ const PrivateRoute = ({ children }) => {
 
         switch(credentials) {
           case 200:
+            if(children === "base") {
+              setIsAuthenticated(true);
+            } else {
             switch(children[1] === user.position) {
               case true:
                 setIsAuthenticated(true);
                 break;
               case false:
                 setIsAuthenticated(false);
+                logout();
                 break;
               default:
                 setIsAuthenticated(false);
+                logout();
                 break;
-            }
+            }}
             break;
           case 400:
             setIsAuthenticated(false);
+            logout();
             break;
           default:
             setIsAuthenticated(false);
+            logout();
             break;
         }
       }
@@ -58,7 +65,28 @@ const PrivateRoute = ({ children }) => {
       return <></>
     } 
 
-    return isAuthenticated ? children[0] :  <Navigate to = '/login'/>;
+    async function logout() {
+      try {
+          const url = '/logout';
+
+          const res = await axios.get(url, {
+          })
+          .then(function (response) {
+              localStorage.removeItem('Name');
+              localStorage.removeItem('Position');
+          })
+      } catch (err) {
+          console.log(err.response.data);
+      }
+    }
+
+    return (children == "base") ? 
+    (isAuthenticated ? 
+      (localStorage.getItem("Position") == "admin") ? 
+        <Navigate to = '/login'/>
+        :<Navigate to = {`/instructor/${localStorage.getItem("Name")}`}/> 
+      :<Navigate to = '/login'/>)
+    : isAuthenticated ? children[0] :  <Navigate to = '/login'/>;
 };
 
 export default PrivateRoute

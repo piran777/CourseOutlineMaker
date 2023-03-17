@@ -6,7 +6,6 @@ import App from './App';
 import DisplayPdf from './DisplayPdf';
 import EditPDF from './EditPDF';
 import PrivateRoute from './PrivateRoutes/PrivateRoutes';
-import CurrentUser from './CurrentUser/CurrentUser';
 import Login from './components/Login/Login';
 import Register from './components/Register/Register';
 import InstructorHome from './components/Instructor/instructorHome';
@@ -17,8 +16,8 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
     <Routes>
-        <Route path = '/' element = {<CurrentUser></CurrentUser>}/>
-        <Route path = "/login" element = {<Login />} component = {CurrentUser}/>
+        <Route path = '/' element = {<PrivateRoute>base</PrivateRoute>}/>
+        <Route path = "/login" element = {<Login />}/>
         <Route path = "/register" element = {<Register />}/>
         <Route path = "/pdf" exact element = {<PrivateRoute><App />instructor</PrivateRoute>}></Route> 
         <Route path = "/instructor/:fname" element = {<PrivateRoute><InstructorHome />instructor</PrivateRoute>} />
