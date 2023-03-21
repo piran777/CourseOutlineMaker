@@ -301,11 +301,12 @@ app.post('/non-approved', (req, res) => {
 // New Outline Notifications
 
 // used by instructor homepage
-app.get('/new-outline', (req, res) => {
-    
-    let instructorName = req.body;
+app.get('/new-outline/:fName/:lName', (req, res) => {
 
-    database.collection("new-assigned-outlines").find({instructor: instructorName}).toArray(function (error, data) {
+    let firstName = req.params.fName;
+    let lastName = req.params.lName;
+
+    database.collection("new-assigned-outlines").find({fName: firstName, lName: lastName}).toArray(function (error, data) {
         res.send((data ? data : error));
     });
 });
@@ -317,9 +318,26 @@ app.post('/new-outline', (req, res) => {
     });
 });
 
-app.delete('/new-outline', (req, res) => {
+app.delete('/new-outline/:outline', (req, res) => {
 
+    let instructorOutline = req.params.outline;
+
+    database.collection("new-assigned-outlines").deleteOne({course: instructorOutline}), function (error, data) {
+        delete req.params.outline;
+        res.send((data ? data : error));
+    };
 })
+
+/*
+app.post('/outline/approve', (req, res) => {
+    // Delete by id from non approved, then add to approved list
+    database.collection("non-approved-outlines").deleteOne({_id: mongoose.Types.ObjectId(req.body.data._id)}, function (error, data) {
+        delete req.body.data._id;
+        database.collection("outline").insertOne(req.body.data, function (error, data) {
+            res.send((data ? data : error));
+        });
+    });
+});*/
 
 app.get('/getNonApprovedPdfNames', (req, res) => {
     database.collection('non-approved-outlines').find({}).toArray((error, data) => {

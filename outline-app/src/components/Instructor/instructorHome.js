@@ -1,9 +1,12 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams, Link } from 'react-router-dom'
 import axios from 'axios';
 import "./instructorHome.css";
 
 const InstructorHome = () => {
+
+    const [courses, setCourses] = useState([]);
+    const [name, setName] = useState("");
 
     const location = useLocation();
     const { fname } = useParams();
@@ -23,6 +26,49 @@ const InstructorHome = () => {
             console.log(err.response.data);
         }
     }
+
+    // Get notification
+    const notification = async () => {
+
+        // Split the name into first name and last name
+        let name = localStorage.getItem("Name");
+        let nameStruct = name.split(" ");
+        let fName = nameStruct[0];
+        let lName = nameStruct[1];
+
+        // Get the list of the new course outlines using fname and lname params
+        try{
+            const url = '/new-outline/' + fName + "/" + lName;
+
+            const res = await axios.get(url, {
+            })
+            .then(function (res) {
+                setCourses(res.data);
+            })
+        } catch (err) {
+            console.log(err.response.data);
+        }
+    }
+
+    const readNotification = async (courseCode) => {
+
+        try {
+            const url = '/new-outline/' + courseCode;
+            //console.log(url);
+            const res = await axios.delete(url, {
+            })
+            .then(function (res) {
+                notification();
+            })
+        } catch (err) {
+            console.log(err.response.data);
+        }
+
+    }
+
+    useEffect(() => {
+        console.log("Courses updated")
+    }, courses);
 
     return (
         <div className='Instructor'>
@@ -45,13 +91,28 @@ const InstructorHome = () => {
             <h1>Welcome { fname }!</h1>
 
             <div className='currentOutlines'>
-                <h3>Current Class Outlines</h3>
+                {courses?.length > 0 
+                    ?   (
+                            <h3>New Course Outlines!</h3>
+                        ) : (
+                            <h3>There are no new outlines!</h3>
+                        )
+                }
+
                 <ul>
-                    <li>Class 1<button className='open'>Open</button><button className='del'>Delete</button></li>
-                    <li>Class 2<button className='open'>Open</button><button className='del'>Delete</button></li>
-                    <li>Class 3<button className='open'>Open</button><button className='del'>Delete</button></li>
-                    <li>Class 4<button className='open'>Open</button><button className='del'>Delete</button></li>
+
+                    {
+                        courses?.length > 0
+                        ? (
+                            courses.map((course) => 
+                            <li>{course.name}<button className='del' id={course.name} onClick={(event) => readNotification(course.name)}>Delete</button></li>
+                        )) : (
+                            <li>Check back later!</li>
+                        )
+                    }
+
                 </ul>
+                <button onClick={notification}>Notifications</button>
             </div>
 
         </div>
