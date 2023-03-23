@@ -13,7 +13,7 @@
     border-radius: 5px;
 }
 
-#logout {
+.Instructor #logout {
     float: right;
 }
 
@@ -67,8 +67,8 @@
 }
 
 .currentOutlines button {
-    padding-top: 5px;
-    padding-bottom: 5px;
+    padding-top: 10px;
+    padding-bottom: 10px;
     padding-inline: 10px;
     margin: 5px;
 }
@@ -80,4 +80,7 @@
 
 .currentOutlines .del {
     background-color: #d9b9b9;
+    margin-left: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
