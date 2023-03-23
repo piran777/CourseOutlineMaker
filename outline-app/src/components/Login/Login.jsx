@@ -38,7 +38,7 @@ export default function Index() {
 
                 // Depending on the position, route to instructor/admin home
                 if(position == 'admin'){
-                    navigate('../assign-instructor');
+                    navigate('../admin-home');
                 } else {
                     navigate('../instructor/' + localStorage.getItem("Name"));
                 }

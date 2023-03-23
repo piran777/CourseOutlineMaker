@@ -12,6 +12,7 @@ import InstructorHome from './components/Instructor/instructorHome';
 import AssignInstructor from './components/AssignInstructor/AssignInstructor';
 import AdminReview from './components/AdminReview/AdminReview';
 import OutlineHistory from './components/OutlineHistory/OutlineHistory';
+import AdminHome from './components/AdminHome/AdminHome';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -27,6 +28,8 @@ root.render(
         <Route path = "/DisplayPdf" exact element = {<DisplayPdf />}></Route>
         <Route path = "/EditPDF" exact element = {<PrivateRoute><EditPDF />instructor</PrivateRoute>}></Route>
         <Route path = "/ReviewPDF" element = {<PrivateRoute><AdminReview />admin</PrivateRoute>}/>
+        <Route path = "/admin-home" element = {<PrivateRoute><AdminHome />admin</PrivateRoute>}/>
+
     </Routes>
   </BrowserRouter>
 );
