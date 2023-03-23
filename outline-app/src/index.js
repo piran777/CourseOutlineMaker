@@ -12,6 +12,7 @@ import Register from './components/Register/Register';
 import InstructorHome from './components/Instructor/instructorHome';
 import AssignInstructor from './components/AssignInstructor/AssignInstructor';
 import AdminReview from './components/AdminReview/AdminReview';
+import RejectedOutlines from './components/RejectedOutlines/RejectedOutlines';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -26,6 +27,7 @@ root.render(
         <Route path = "/DisplayPdf" exact element = {<DisplayPdf />}></Route>
         <Route path = "/EditPDF" exact element = {<PrivateRoute><EditPDF />instructor</PrivateRoute>}></Route>
         <Route path = "/ReviewPDF" element = {<PrivateRoute><AdminReview />admin</PrivateRoute>}/>
+        <Route path = "/RejectedOutlines" element = {<PrivateRoute><RejectedOutlines />instructor</PrivateRoute>} />
     </Routes>
   </BrowserRouter>
 );
