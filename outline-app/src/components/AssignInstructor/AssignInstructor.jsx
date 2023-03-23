@@ -103,12 +103,29 @@ export default function ExpandableRowGroupsDoc() {
                 start: dates[0].toLocaleDateString(),
                 end: dates[1].toLocaleDateString()
             }
+            notify(body);
             setVisible(false);
             axios.post('/instructors', body).then((res) => {
                 toast.current.show({ severity: (res ? 'success' : 'error'), summary: (res ? 'Success' : 'Error'), detail: (res ? 'Saved Successfully.' : 'Unable to save.') });
                 if (res) { axios.get('/instructors/assigned').then(res => setAssignedInstructors(res.data)); }
             });
         }
+    }
+
+    // Add to collection for an instructor notification
+    const notify = (properties) => {
+
+        let iName = properties.instructorName;
+        let nameStruct = iName.split(" ");
+        const body = {
+            name: properties.name,
+            fName: nameStruct[0],
+            lName: nameStruct[1],
+            start: properties.start,
+            end: properties.end
+        }
+
+        axios.post('/new-outline', body);
     }
 
     return (

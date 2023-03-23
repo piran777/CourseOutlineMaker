@@ -6,19 +6,19 @@ import App from './App';
 import DisplayPdf from './DisplayPdf';
 import EditPDF from './EditPDF';
 import PrivateRoute from './PrivateRoutes/PrivateRoutes';
-import CurrentUser from './CurrentUser/CurrentUser';
 import Login from './components/Login/Login';
 import Register from './components/Register/Register';
 import InstructorHome from './components/Instructor/instructorHome';
 import AssignInstructor from './components/AssignInstructor/AssignInstructor';
 import AdminReview from './components/AdminReview/AdminReview';
+import AdminHome from './components/AdminHome/AdminHome';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
     <Routes>
-        <Route path = '/' element = {<CurrentUser></CurrentUser>}/>
-        <Route path = "/login" element = {<Login />} component = {CurrentUser}/>
+        <Route path = '/' element = {<PrivateRoute>base</PrivateRoute>}/>
+        <Route path = "/login" element = {<Login />}/>
         <Route path = "/register" element = {<Register />}/>
         <Route path = "/pdf" exact element = {<PrivateRoute><App />instructor</PrivateRoute>}></Route> 
         <Route path = "/instructor/:fname" element = {<PrivateRoute><InstructorHome />instructor</PrivateRoute>} />
@@ -26,6 +26,8 @@ root.render(
         <Route path = "/DisplayPdf" exact element = {<DisplayPdf />}></Route>
         <Route path = "/EditPDF" exact element = {<PrivateRoute><EditPDF />instructor</PrivateRoute>}></Route>
         <Route path = "/ReviewPDF" element = {<PrivateRoute><AdminReview />admin</PrivateRoute>}/>
+        <Route path = "/admin-home" element = {<PrivateRoute><AdminHome />admin</PrivateRoute>}/>
+
     </Routes>
   </BrowserRouter>
 );
