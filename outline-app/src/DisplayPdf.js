@@ -61,10 +61,17 @@ const DisplayPdf = () => {
     fetch(`/getOutline/${pdfName}`)
       .then(response => response.json())
       .then(data => setOutlineData(data));
-      event.target.reset();
+    event.target.reset();
   };
 
   useEffect(() => {
+    let url = new URL(window.location.href);
+
+    if (url.searchParams.has('fromHistory')) {
+      console.log(JSON.parse(url.searchParams.get('fromHistory')))
+      setOutlineData([JSON.parse(url.searchParams.get('fromHistory'))])
+    }
+
     axios.get('/getPdfNames')
       .then(res => setOutlineNames(res.data))
       .catch(error => console.error(error));
