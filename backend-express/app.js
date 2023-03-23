@@ -318,6 +318,7 @@ app.post('/new-outline', (req, res) => {
     });
 });
 
+// route for instructor clearing a notification
 app.delete('/new-outline/:outline', (req, res) => {
 
     let instructorOutline = req.params.outline;
@@ -328,17 +329,6 @@ app.delete('/new-outline/:outline', (req, res) => {
         res.send(`Deleted ${result.deletedCount} document(s) with course: ${instructorOutline}`);
     });
 })
-
-/*
-app.post('/outline/approve', (req, res) => {
-    // Delete by id from non approved, then add to approved list
-    database.collection("non-approved-outlines").deleteOne({_id: mongoose.Types.ObjectId(req.body.data._id)}, function (error, data) {
-        delete req.body.data._id;
-        database.collection("outline").insertOne(req.body.data, function (error, data) {
-            res.send((data ? data : error));
-        });
-    });
-});*/
 
 app.get('/getNonApprovedPdfNames', (req, res) => {
     database.collection('non-approved-outlines').find({}).toArray((error, data) => {
