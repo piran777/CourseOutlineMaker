@@ -322,10 +322,11 @@ app.delete('/new-outline/:outline', (req, res) => {
 
     let instructorOutline = req.params.outline;
 
-    database.collection("new-assigned-outlines").deleteOne({course: instructorOutline}), function (error, data) {
-        delete req.params.outline;
-        res.send((data ? data : error));
-    };
+    database.collection("new-assigned-outlines").deleteOne({name: instructorOutline}, (err, result) => {
+        if (err) throw err;
+        console.log(`Deleted ${result.deletedCount} document(s) with name: ${instructorOutline}`);
+        res.send(`Deleted ${result.deletedCount} document(s) with course: ${instructorOutline}`);
+    });
 })
 
 /*

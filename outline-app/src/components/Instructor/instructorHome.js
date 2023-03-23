@@ -6,10 +6,11 @@ import "./instructorHome.css";
 const InstructorHome = () => {
 
     const [courses, setCourses] = useState([]);
-    const [name, setName] = useState("");
+    const [firstName, setFirstName] = useState("");
 
     const location = useLocation();
     const { fname } = useParams();
+
     const navigate = useNavigate();
 
     const logout = async () => {
@@ -45,17 +46,20 @@ const InstructorHome = () => {
             .then(function (res) {
                 setCourses(res.data);
             })
+
         } catch (err) {
-            console.log(err.response.data);
+            console.log(err.response);
         }
+
     }
 
     const readNotification = async (courseCode) => {
 
+        // The passed parameter "courseCode" is functioning properly
+
         try {
             const url = '/new-outline/' + courseCode;
-            //console.log(url);
-            const res = await axios.delete(url, {
+            const res = await axios.delete(url, {       // The route is called properly
             })
             .then(function (res) {
                 notification();
@@ -67,8 +71,8 @@ const InstructorHome = () => {
     }
 
     useEffect(() => {
-        console.log("Courses updated")
-    }, courses);
+        notification();
+    });
 
     return (
         <div className='Instructor'>
@@ -105,14 +109,13 @@ const InstructorHome = () => {
                         courses?.length > 0
                         ? (
                             courses.map((course) => 
-                            <li>{course.name}<button className='del' id={course.name} onClick={(event) => readNotification(course.name)}>Delete</button></li>
+                            <li>{course.name}<button className='del' id={course.name} onClick={(event) => readNotification(course.name)}>Clear</button></li>
                         )) : (
                             <li>Check back later!</li>
                         )
                     }
 
                 </ul>
-                <button onClick={notification}>Notifications</button>
             </div>
 
         </div>
