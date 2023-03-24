@@ -1,8 +1,167 @@
-import React from "react";
+import React, { Component } from 'react';
+import axios from 'axios';
+import { saveAs } from 'file-saver';
+import { Document, Page, PDFViewer, Text, View } from '@react-pdf/renderer';
+import './index.css';
+//import {useForm} from 'react-hook-form'
 
-export default function Index() {
+class App extends Component {
+ constructor(string = "", props){    
+  super(string, props);
+    this.state = {
+        outlineNames: [],
+        code: '',
+        course: '',
+        year: '',
+        desc: '',
+        instructor: '',
+        calendar: '',
+        contact:'',
+        hours: 0,
+        labhours: 0,
+        anti: "",
+        pre: "",
+        co: "",
+        CEAB: 0,
+        nameDes: 0,
+        reqText: "",
+        reqRef: "",
+        recRef: "",
+        knowledge: "",
+        engTools: "",
+        impact: "",
+        probAnaly: "",
+        teamWork: "",
+        ethics: "", 
+        investigation: "",
+        comSkills: "",
+        economics: "",
+        design: "", 
+        professional: "",
+        learning: "",
+        topic1: "",
+        a: "",
+        b: "",
+        topic2: "",
+        a2: "",
+        b2: "",
+        topic3: "",
+        a3: "",
+        b3: "",
+        hwAssign: 0,
+        quizzes: 0,
+        lab: 0,
+        midterm: 0,
+        hwAssign2: "",
+        quizzes2: "",
+        labora2: "",
+        midterm2: "",
+        submission: "",
+        locker: 0,
+        devices: "",
+        clickers: "",
+        outlineName:"",
+        JustifyChange: "",
+        comments: "",
+    }
+  }
+
+  getPDFNames = () => {
+    axios.get('/getRejectedPdfNames')
+      .then(res => {
+        this.setState({ outlineNames: res.data });
+      })
+      .catch(error => console.error(error));
+  };
+
+
+  handleChange = ({ target: { value, name }}) => this.setState({ [name]: value })
+  handleChange2 = (e) =>{
+    this.setState({value: e.target.value})
+  }
+
+  callPdfBackend = () => {
+    axios.post('/create-non-approved-pdf', this.state)
+      .then(() => axios.get('fetch-pdf', { responseType: 'blob' }))}
+  
+
+   handleSubmit = (event) => {
+    event.preventDefault();
+  
+    axios.get(`http://localhost:4200/rejected-outlineLoader/${this.state.value}`).then(response => {
+      const data = response.data[0];
+      this.setState({
+        code: data.code,
+        course: data.course,
+        year: data.year,
+        desc: data.desc,
+        instructor: data.instructor,
+        calendar: data.calendar,
+        contact: data.contact,
+        hours: data.hours,
+        labhours: data.labhours,
+        anti: data.anti,
+        pre: data.pre,
+        co: data.co,
+        CEAB: data.CEAB,
+        nameDes: data.nameDes,
+        reqText: data.reqText,
+        reqRef: data.reqRef,
+        recRef: data.recRef,
+        knowledge: data.knowledge,
+        engTools: data.engTools,
+        impact: data.impact,
+        probAnaly: data.probAnaly,
+        teamWork: data.teamWork,
+        ethics: data.ethics,
+        investigation: data.investigation,
+        comSkills: data.comSkills,
+        economics: data.economics,
+        design: data.design,
+        professional: data.professional,
+        learning: data.learning,
+        topic1: data.topic1,
+        a: data.a,
+        b: data.b,
+        topic2: data.topic2,
+        a2: data.a2,
+        b2: data.b2,
+        topic3: data.topic3,
+        a3: data.a3,
+        b3: data.b3,
+        hwAssign: data.hwAssign,
+        quizzes: data.quizzes,
+        lab: data.lab,
+        midterm: data.midterm,
+        hwAssign2: data.hwAssign2,
+        quizzes2: data.quizzes2,
+        labora2: data.labora2,
+        midterm2: data.midterm2,
+        submission: data.submission,
+        locker: data.locker,
+        devices: data.devices,
+        clickers: data.clickers,
+        outlineName: data.outlineName,
+        JustifyChange: data.JustifyChange,
+        email: data.email,
+        value: data.value,
+        comments: data.comments
+      });
+    })
+       
+      
+      .catch((error) => {
+        console.log(error);
+      });
+      
+  };
+  
+  handleChangeNew = (e) =>{
+    this.setState({value: e.target.value})
+  }
+  render() {
     return (
-        <div>
+      <div>
 
       <form onSubmit={this.handleSubmit} onChange={this.handleChangeNew}>
         <select id="outlines" name="outlines">
@@ -556,32 +715,36 @@ Scholastic offences are taken seriously and students are directed to read the ap
           />}  </h5>
 
 
-<h4>Policy on Repeating All Components of a Course: </h4><h5> Students who are required to repeat an Engineering course must repeat all components of the course. No special permissions will be granted enabling a student to retain laboratory, assignment, or test marks from previous years. Previously completed assignments and laboratories cannot be resubmitted by the student for grading in subsequent years. </h5>
+          <h4>Policy on Repeating All Components of a Course: </h4><h5> Students who are required to repeat an Engineering course must repeat all components of the course. No special permissions will be granted enabling a student to retain laboratory, assignment, or test marks from previous years. Previously completed assignments and laboratories cannot be resubmitted by the student for grading in subsequent years. </h5>
 
-<h4>Internet and Electronic Mail: </h4><h5> Students are responsible for regularly checking their Western e mail and the course web site (<a href=" https://owl.uwo.ca/portal/"> https://owl.uwo.ca/portal/</a>) and making themselves aware of any information that is posted about the course. </h5>
-<h4>Accessibility: </h4><h5> : Please contact the course instructor if you require material in an alternate format or if any other arrangements can make this course more accessible to you. You may also wish to contact Services for Students with Disabilities (SSD) at 519-661-2111 ext. 82147 for any specific question regarding an accommodation. </h5>
+          <h4>Internet and Electronic Mail: </h4><h5> Students are responsible for regularly checking their Western e mail and the course web site (<a href=" https://owl.uwo.ca/portal/"> https://owl.uwo.ca/portal/</a>) and making themselves aware of any information that is posted about the course. </h5>
+          <h4>Accessibility: </h4><h5> : Please contact the course instructor if you require material in an alternate format or if any other arrangements can make this course more accessible to you. You may also wish to contact Services for Students with Disabilities (SSD) at 519-661-2111 ext. 82147 for any specific question regarding an accommodation. </h5>
 
-<h4>Support Services: </h4><h5> Office of the Registrar, <a href=" http://www.registrar.uwo.ca/"> http://www.registrar.uwo.ca/</a>
-					Student Development Centre, <a href="http://www.sdc.uwo.ca/">http://www.sdc.uwo.ca/</a>
-					Engineering Undergraduate Services, <a href=" http://www.eng.uwo.ca/undergraduate/"> http://www.eng.uwo.ca/undergraduate/</a> 
-					USC Student Support Services, <a href=" http://westernusc.ca/services/"> http://westernusc.ca/services/</a> 
+          <h4>Support Services: </h4><h5> Office of the Registrar, <a href=" http://www.registrar.uwo.ca/"> http://www.registrar.uwo.ca/</a>
+                    Student Development Centre, <a href="http://www.sdc.uwo.ca/">http://www.sdc.uwo.ca/</a>
+                    Engineering Undergraduate Services, <a href=" http://www.eng.uwo.ca/undergraduate/"> http://www.eng.uwo.ca/undergraduate/</a> 
+                    USC Student Support Services, <a href=" http://westernusc.ca/services/"> http://westernusc.ca/services/</a> 
 
-Students who are in emotional/mental distress should refer to Mental Health @ Western, <a href=" http://www.health.uwo.ca/mental_health/"> http://www.health.uwo.ca/mental_health/</a>, for a complete list of options about how to obtain help
- </h5>
- <h4>Justification:</h4>
- <textarea className = "desc"
-            type="text"
-            name="JustifyChange"
-            value={this.state.JustifyChange}
-            onChange={(e) => this.setState({ JustifyChange: e.target.value })}
-            placeholder=""
-          />
+          Students who are in emotional/mental distress should refer to Mental Health @ Western, <a href=" http://www.health.uwo.ca/mental_health/"> http://www.health.uwo.ca/mental_health/</a>, for a complete list of options about how to obtain help
+          </h5>
+          <h4>Justification:</h4>
+          <textarea className = "desc"
+                      type="text"
+                      name="JustifyChange"
+                      value={this.state.JustifyChange}
+                      onChange={(e) => this.setState({ JustifyChange: e.target.value })}
+                      placeholder=""
+                    />
 
        </div>      
       <button onClick={this.callPdfBackend}>Store as unapproved outline</button>
-        </div>
+      </div>
       </div>
       </form>
       </div>
-    )
+      
+    );
+  }
 }
+
+export default App;

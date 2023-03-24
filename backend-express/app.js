@@ -185,6 +185,18 @@ app.get('/unapproved-outlineLoader/:value', (req, res) => {
     });
 });
 
+app.get('/rejected-outlineLoader/:value', (req, res) => {
+    const { value } = req.params;
+    database.collection('non-approved-outlines').find({ value }).toArray((error, data) => {
+        if (error) {
+            console.log(error);
+            res.status(500).send(error);
+        } else {
+            res.json(data);
+        }
+    });
+});
+
 
 
 //post - pdf generation and fetch
@@ -300,6 +312,17 @@ app.post('/non-approved', (req, res) => {
 
 app.get('/getNonApprovedPdfNames', (req, res) => {
     database.collection('non-approved-outlines').find({}).toArray((error, data) => {
+        if (error) {
+            res.send(error);
+        } else {
+            const pdfNames = data.map(pdf => pdf.value);
+            res.send(pdfNames);
+        }
+    });
+});
+
+app.get('/getRejectedPdfNames', (req, res) => {
+    database.collection('reviewed-outlines').find({}).toArray((error, data) => {
         if (error) {
             res.send(error);
         } else {
