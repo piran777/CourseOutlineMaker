@@ -7,6 +7,7 @@ const InstructorHome = () => {
 
     const [courses, setCourses] = useState([]);
     const [firstName, setFirstName] = useState("");
+    const [approvals, setApprovals] = useState([]);
 
     const location = useLocation();
     const { fname } = useParams();
@@ -16,13 +17,12 @@ const InstructorHome = () => {
     const logout = async () => {
         try {
             const url = '/logout';
-
             const res = await axios.get(url, {
             })
             .then(function (response) {
                 localStorage.removeItem('Name');
                 localStorage.removeItem('Position');
-
+                localStorage.removeItem('Email');
             })
         } catch (err) {
             console.log(err.response.data);
@@ -51,7 +51,22 @@ const InstructorHome = () => {
         } catch (err) {
             console.log(err.response);
         }
+    }
 
+    const approvalNotification = async () => {
+        let email = localStorage.getItem("Email");
+
+        try{
+            const url = '/notify-approval/' + email; 
+
+            const res = await axios.get(url, {            
+            })
+            .then(function(res) {
+                setApprovals(res.data);
+            })
+        } catch (err) {
+            console.log(err.response);
+        }
     }
 
     const readNotification = async (courseCode) => {
@@ -70,9 +85,9 @@ const InstructorHome = () => {
         }
 
     }
-
     useEffect(() => {
         notification();
+        approvalNotification();
     });
 
     return (
@@ -115,7 +130,17 @@ const InstructorHome = () => {
                             <li>Check back later!</li>
                         )
                     }
-
+                </ul>
+                <ul>
+                    {
+                        approvals?.length > 0
+                        ? (
+                            approvals.map(approval => 
+                            <li>{approval.fileName} {approval.comment}</li>)
+                        ) : (
+                            <li>Check back later!</li>
+                        )
+                    }
                 </ul>
             </div>
 
