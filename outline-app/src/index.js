@@ -23,7 +23,7 @@ root.render(
         <Route path = "/register" element = {<Register />}/>
         <Route path = "/pdf" exact element = {<PrivateRoute><App />instructor</PrivateRoute>}></Route> 
         <Route path = "/history" exact element = {<PrivateRoute><OutlineHistory />instructor</PrivateRoute>}></Route> 
-        <Route path = "/instructor/:fname" element = {<PrivateRoute><InstructorHome />instructor</PrivateRoute>} />
+        <Route path = "/instructor" element = {<PrivateRoute><InstructorHome />instructor</PrivateRoute>} />
         <Route path = "/assign-instructor" element = {<PrivateRoute><AssignInstructor />admin</PrivateRoute>}/>
         <Route path = "/DisplayPdf" exact element = {<DisplayPdf />}></Route>
         <Route path = "/EditPDF" exact element = {<PrivateRoute><EditPDF />instructor</PrivateRoute>}></Route>
