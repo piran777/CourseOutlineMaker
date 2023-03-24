@@ -69,6 +69,19 @@ const InstructorHome = () => {
         }
     }
 
+    const readApprovalNotification = async(fileName) => {
+        try { 
+            const url = '/notify-approval/' + fileName;
+            const res = await axios.delete(url, {
+            })
+            .then(function(res) {
+                approvalNotification();
+            })
+        } catch(err) {
+            console.log(err.response.data);
+        }
+    }
+
     const readNotification = async (courseCode) => {
 
         // The passed parameter "courseCode" is functioning properly
@@ -136,7 +149,7 @@ const InstructorHome = () => {
                         approvals?.length > 0
                         ? (
                             approvals.map(approval => 
-                            <li>{approval.fileName} {approval.comment}</li>)
+                            <li>{approval.fileName} <p>{approval.comment}</p><button className='del' id={approval.fileName} onClick= {(event) => readApprovalNotification(approval.fileName)}>Clear</button></li>)
                         ) : (
                             <li>Check back later!</li>
                         )
