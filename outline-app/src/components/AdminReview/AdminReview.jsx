@@ -176,7 +176,7 @@ export default function Index() {
 
         const body = {
             email: acceptedData.email,
-            fileName: acceptedData.value,
+            fileName: pdfName,
             comment: "Outline Approved!"
         }
 
