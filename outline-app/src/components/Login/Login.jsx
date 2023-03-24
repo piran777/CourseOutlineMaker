@@ -32,7 +32,7 @@ export default function Index() {
                 //Redirects to home page
                 localStorage.setItem('Name', data.user.firstName + ' ' + data.user.lastName);
                 localStorage.setItem('Position', data.user.position);
-                
+                localStorage.setItem('Email', data.user.email);
                 //
                 let position = localStorage.getItem('Position')
 
@@ -40,7 +40,7 @@ export default function Index() {
                 if(position == 'admin'){
                     navigate('../admin-home');
                 } else {
-                    navigate('../instructor/' + localStorage.getItem("Name"));
+                    navigate('../instructor/' + localStorage.getItem("Name") + localStorage.getItem("Email"));
                 }
             }
 

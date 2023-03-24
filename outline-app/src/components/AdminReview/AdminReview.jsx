@@ -9,6 +9,7 @@ export default function Index() {
     const [comment, setComment] = useState('');
     let rejectedData = {};
     let acceptedData = {};
+    let body = {};
 
     const handleChange = event => {
         event.preventDefault();
@@ -90,13 +91,24 @@ export default function Index() {
                 outlineName: data.outlineName,
                 value: data.value,
                 _id: data._id,
-                comments: comment
+                comments: comment,
+                email: data.email
+
             }
         ))
 
+        outlineData.map(data => (
+            body = {
+                email: data.email,
+                fileName: pdfName,
+                comment: comment
+            }
+        ))
+        
         axios.post('/outline/disapprove', {
             data: rejectedData
         })
+        .then(() => axios.post('notify-approval', body))
         .then(function (response) {
             window.location.reload(false);
         }) 
@@ -157,12 +169,20 @@ export default function Index() {
                     clickers: data.clickers,
                     outlineName: data.outlineName,
                     value: data.value,
-                    _id: data._id
+                    _id: data._id,
+                    email: data.email
                 }
         ))
+
+        const body = {
+            email: acceptedData.email,
+            fileName: pdfName,
+            comment: "Outline Approved!"
+        }
+
         axios.post('/outline/approve', {
             data: acceptedData
-        })
+        }).then(() => axios.post('notify-approval', body))
         .then(function (response) {
             window.location.reload(false);
         })
@@ -440,6 +460,7 @@ export default function Index() {
 
             <h4>Justification for Changes: </h4><h5>{data.justifyChange}</h5>
             <h4>Comments to Instructor:</h4>
+            <h4>Instructor Email:</h4><h5>{data.email}</h5>
             <textarea style = {{width: "500px", height: "100px", textAlignVertical: 'top', paddingTop: 5, paddingLeft: 5}} onChange={getComment}> </textarea>
             <br></br>
             <button onClick={rejectPDF}>Reject Course Outline</button>

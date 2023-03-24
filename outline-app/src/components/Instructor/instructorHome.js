@@ -7,21 +7,22 @@ const InstructorHome = () => {
 
     const [courses, setCourses] = useState([]);
     const [firstName, setFirstName] = useState("");
+    const [approvals, setApprovals] = useState([]);
 
     const location = useLocation();
     const { fname } = useParams();
 
     const navigate = useNavigate();
-
+    
     const logout = async () => {
         try {
             const url = '/logout';
-
             const res = await axios.get(url, {
             })
             .then(function (response) {
                 localStorage.removeItem('Name');
                 localStorage.removeItem('Position');
+                localStorage.removeItem('Email');
             })
         } catch (err) {
             console.log(err.response.data);
@@ -50,7 +51,35 @@ const InstructorHome = () => {
         } catch (err) {
             console.log(err.response);
         }
+    }
 
+    const approvalNotification = async () => {
+        let email = localStorage.getItem("Email");
+
+        try{
+            const url = '/notify-approval/' + email; 
+
+            const res = await axios.get(url, {            
+            })
+            .then(function(res) {
+                setApprovals(res.data);
+            })
+        } catch (err) {
+            console.log(err.response);
+        }
+    }
+
+    const readApprovalNotification = async(fileName) => {
+        try { 
+            const url = '/notify-approval/' + fileName;
+            const res = await axios.delete(url, {
+            })
+            .then(function(res) {
+                approvalNotification();
+            })
+        } catch(err) {
+            console.log(err.response.data);
+        }
     }
 
     const readNotification = async (courseCode) => {
@@ -69,16 +98,16 @@ const InstructorHome = () => {
         }
 
     }
-
     useEffect(() => {
         notification();
+        approvalNotification();
     });
 
     return (
         <div className='Instructor'>
 
             <nav>
-                <Link to="/pdf">
+                <Link to ="/pdf">
                     <li>Create Outline</li>
                 </Link>
                 <Link to="/DisplayPdf">
@@ -117,7 +146,17 @@ const InstructorHome = () => {
                             <li>Check back later!</li>
                         )
                     }
-
+                </ul>
+                <ul>
+                    {
+                        approvals?.length > 0
+                        ? (
+                            approvals.map(approval => 
+                            <li>{approval.fileName} <p>{approval.comment}</p><button className='del' id={approval.fileName} onClick= {(event) => readApprovalNotification(approval.fileName)}>Clear</button></li>)
+                        ) : (
+                            <li>Check back later!</li>
+                        )
+                    }
                 </ul>
             </div>
 
