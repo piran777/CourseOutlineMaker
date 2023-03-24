@@ -167,7 +167,10 @@ app.get('/outlineLoader/:value', (req, res) => {
         if (error) {
             console.log(error);
             res.status(500).send(error);
-        } else {
+        } else if(data ==false){
+            res.status(403).send("invalid")
+        } 
+        else {
             res.json(data);
         }
     });
