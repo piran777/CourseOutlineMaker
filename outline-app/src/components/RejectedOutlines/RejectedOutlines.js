@@ -1,11 +1,10 @@
-import React, { Component, useState, useEffect } from 'react';
+import React, { Component } from 'react';
 import axios from 'axios';
-import { saveAs } from 'file-saver';
-import { Document, Page, PDFViewer, Text, View } from '@react-pdf/renderer';
-import './index.css';
-//import {useForm} from 'react-hook-form'
 
 class App extends Component {
+
+  
+
  constructor(string = "", props){    
   super(string, props);
     this.state = {
@@ -62,14 +61,12 @@ class App extends Component {
         clickers: "",
         outlineName:"",
         JustifyChange: "",
-        email:""
-        
-      
+        comments: "",
     }
   }
 
   getPDFNames = () => {
-    axios.get('/getNonApprovedPdfNames')
+    axios.get('/getRejectedPdfNames')
       .then(res => {
         this.setState({ outlineNames: res.data });
       })
@@ -81,19 +78,10 @@ class App extends Component {
     this.getPDFNames();
   }
 
+
   handleChange = ({ target: { value, name }}) => this.setState({ [name]: value })
   handleChange2 = (e) =>{
     this.setState({value: e.target.value})
-  }
-
-  createAndDownloadPdf = () => {
-    axios.post('/create-pdf', this.state)
-      .then(() => axios.get('fetch-pdf', { responseType: 'blob' }))
-      .then((res) => {
-        const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
-
-        saveAs(pdfBlob, `${this.state.value}.pdf`);
-      })
   }
 
   callPdfBackend = () => {
@@ -104,11 +92,10 @@ class App extends Component {
   })}
   
 
-  
    handleSubmit = (event) => {
     event.preventDefault();
-    
-    axios.get(`http://localhost:4200/unapproved-outlineLoader/${this.state.value}`).then(response => {
+  
+    axios.get(`http://localhost:4200/rejected-outlineLoader/${this.state.value}`).then(response => {
       const data = response.data[0];
       this.setState({
         code: data.code,
@@ -163,12 +150,12 @@ class App extends Component {
         clickers: data.clickers,
         outlineName: data.outlineName,
         JustifyChange: data.JustifyChange,
-        email:"",
-        value: data.value
+        email: data.email,
+        value: data.value,
+        id: data._id,
+        comments: data.comments,
       });
     })
-       
-      
       .catch((error) => {
         console.log(error);
       });
@@ -190,6 +177,8 @@ class App extends Component {
         </select>
         <button type="submit">Load unapproved PDFs</button>
       </form>
+
+      <h4>Comments From Admin:</h4><h5> { <textarea className = "desc" name = "comments" value = { this.state.comments } readOnly/>}</h5>
 
       <form className = "titleInputs" onSubmit={this.handleSubmit}>
       <div className="App">
@@ -360,144 +349,109 @@ class App extends Component {
           </p>
           <h4>General Learning Objectives (CEAB Graduate Attributes):  </h4>
           <table>
-          <tr>
+  <tr>
     <td>Knowledge Base</td>
-    <td>
-      <select name="knowledge"
-                value={this.state.knowledge} 
-                onChange={(e) => this.setState({knowledge: e.target.value})}
-                placeholder="x">
-            <option>N/A</option>
-            <option>I</option>
-            <option>D</option>
-            <option>A</option>
-        </select></td>
+    <td><input className='shortText'
+        type="text"
+        name="knowledge"
+        value={this.state.knowledge}
+            onChange={(e) => this.setState({ knowledge: e.target.value })}
+        placeholder="x"
+      /></td>
     <td>Use of Engineering Tools</td>
-    <td>
-      <select name="engTools"
-                value={this.state.engTools} 
-                onChange={(e) => this.setState({engTools: e.target.value})}
-                placeholder="x">
-            <option>N/A</option>
-            <option>I</option>
-            <option>D</option>
-            <option>A</option>
-        </select></td>
+    <td><input className='shortText'
+        type="text"
+        name= "engTools"
+        value={this.state.engTools}
+            onChange={(e) => this.setState({ engTools: e.target.value })}
+        placeholder="x"
+      /></td>
     <td>Impact on Society and the Environment</td>
-    <td>
-      <select name="impact"
-                value={this.state.impact} 
-                onChange={(e) => this.setState({impact: e.target.value})}
-                placeholder="x">
-            <option>N/A</option>
-            <option>I</option>
-            <option>D</option>
-            <option>A</option>
-        </select></td>
+    <td><input className='shortText'
+        type="text"
+        name="impact"
+        value={this.state.impact}
+        onChange={(e) => this.setState({ impact: e.target.value })}
+        placeholder="x"
+      /></td>
   </tr>
   <tr>
     <td>Problem Analysis</td>
-    <td><select name="probAnaly"
-                value={this.state.probAnaly} 
-                onChange={(e) => this.setState({probAnaly: e.target.value})}
-                placeholder="x">
-            <option>N/A</option>
-            <option>I</option>
-            <option>D</option>
-            <option>A</option>
-        </select></td>
+    <td><input className='shortText'
+        type="text"
+        name="probAnaly"
+        value={this.state.probAnaly}
+        onChange={(e) => this.setState({ probAnaly: e.target.value })}
+        placeholder="x"
+      /></td>
     <td>Individual and Team Work</td>
-    <td>
-      <select name="teamWork"
-                value={this.state.teamWork} 
-                onChange={(e) => this.setState({teamWork: e.target.value})}
-                placeholder="x">
-            <option>N/A</option>
-            <option>I</option>
-            <option>D</option>
-            <option>A</option>
-        </select></td>
+    <td><input className='shortText'
+        type="text"
+        name="teamWork"
+        value={this.state.teamWork}
+        onChange={(e) => this.setState({ teamWork: e.target.value })}
+        placeholder="x"
+      /></td>
     <td>Ethics and Equity</td>
-    <td>
-      <select name="ethics"
-                value={this.state.ethics} 
-                onChange={(e) => this.setState({ethics: e.target.value})}
-                placeholder="x">
-            <option>N/A</option>
-            <option>I</option>
-            <option>D</option>
-            <option>A</option>
-        </select></td>
+    <td><input className='shortText'
+        type="text"
+        name="ethics"
+        value={this.state.ethics}
+        onChange={(e) => this.setState({ ethics: e.target.value })}
+        placeholder="x"
+      /></td>
   </tr>
   <tr>
     <td>Investigation</td>
-    <td>
-      <select name="investigation"
-                value={this.state.investigation} 
-                onChange={(e) => this.setState({investigation: e.target.value})}
-                placeholder="x">
-            <option>N/A</option>
-            <option>I</option>
-            <option>D</option>
-            <option>A</option>
-        </select></td>
+    <td><input className='shortText'
+        type="text"
+        name="investigation"
+        value={this.state.investigation}
+            onChange={(e) => this.setState({ investigation: e.target.value })}
+        placeholder="x"
+      /></td>
     <td>Communication Skills</td>
-    <td>
-      <select name="comSkills"
-                value={this.state.comSkills} 
-                onChange={(e) => this.setState({comSkills: e.target.value})}
-                placeholder="x">
-            <option>N/A</option>
-            <option>I</option>
-            <option>D</option>
-            <option>A</option>
-        </select></td>
+    <td><input className='shortText'
+        type="text"
+        name="comSkills"
+        value={this.state.comSkills}
+        onChange={(e) => this.setState({ comSkills: e.target.value })}
+        placeholder="x"
+      /></td>
     <td>Economics and Project Management</td>
-    <td>
-      <select name="economics"
-                value={this.state.economics} 
-                onChange={(e) => this.setState({economics: e.target.value})}
-                placeholder="x">
-            <option>N/A</option>
-            <option>I</option>
-            <option>D</option>
-            <option>A</option>
-        </select></td>
+    <td><input className='shortText'
+        type="text"
+        name="economics"
+        value={this.state.economics}
+        onChange={(e) => this.setState({ economics: e.target.value })}
+        placeholder="x"
+      /></td>
   </tr>
   <tr>
     <td>Design</td>
-    <td>
-      <select name="design"
-                value={this.state.design} 
-                onChange={(e) => this.setState({design: e.target.value})}
-                placeholder="x">
-            <option>N/A</option>
-            <option>I</option>
-            <option>D</option>
-            <option>A</option>
-        </select></td>
+    <td><input className='shortText'
+        type="text"
+        name="design"
+        value={this.state.design}
+        onChange={(e) => this.setState({ design: e.target.value })}
+        placeholder="x"
+      /></td>
     <td>Professionalism</td>
-    <td>
-      <select name="professional"
-                value={this.state.professional} 
-                onChange={(e) => this.setState({professional: e.target.value})}
-                placeholder="x">
-            <option>N/A</option>
-            <option>I</option>
-            <option>D</option>
-            <option>A</option>
-        </select></td>
+    <td><input className='shortText'
+        type="text"
+        name="professional"
+        value={this.state.professional}
+        onChange={(e) => this.setState({ professional: e.target.value })}
+        placeholder="x"
+      /></td>
     <td>Life-Long Learning</td>
-    <td>
-      <select name="learning"
-                value={this.state.learning} 
-                onChange={(e) => this.setState({learning: e.target.value})}
-                placeholder="x">
-            <option>N/A</option>
-            <option>I</option>
-            <option>D</option>
-            <option>A</option>
-        </select></td>
+    <td><input className='shortText'
+        type="text"
+        name="learning"
+        value={this.state.learning}
+        onChange={(e) => this.setState({ leanring: e.target.value })}
+        placeholder="x"
+      /></td>
   </tr>
 </table>
 <h5> Notation: where x be I: Introductory, D: Intermediate, A: Advanced, or empty. I – The instructor will introduce the topic at the level required.  It is not necessary for the student to have seen the material before. D – There may be a reminder or review, but the student is expected to have seen and been tested on the material before taking the course. A – It is expected that the student can apply the knowledge without prompting (e.g. no review).</h5>
@@ -768,47 +722,33 @@ Scholastic offences are taken seriously and students are directed to read the ap
           />}  </h5>
 
 
-<h4>Policy on Repeating All Components of a Course: </h4><h5> Students who are required to repeat an Engineering course must repeat all components of the course. No special permissions will be granted enabling a student to retain laboratory, assignment, or test marks from previous years. Previously completed assignments and laboratories cannot be resubmitted by the student for grading in subsequent years. </h5>
+          <h4>Policy on Repeating All Components of a Course: </h4><h5> Students who are required to repeat an Engineering course must repeat all components of the course. No special permissions will be granted enabling a student to retain laboratory, assignment, or test marks from previous years. Previously completed assignments and laboratories cannot be resubmitted by the student for grading in subsequent years. </h5>
 
-<h4>Internet and Electronic Mail: </h4><h5> Students are responsible for regularly checking their Western e mail and the course web site (<a href=" https://owl.uwo.ca/portal/"> https://owl.uwo.ca/portal/</a>) and making themselves aware of any information that is posted about the course. </h5>
-<h4>Accessibility: </h4><h5> : Please contact the course instructor if you require material in an alternate format or if any other arrangements can make this course more accessible to you. You may also wish to contact Services for Students with Disabilities (SSD) at 519-661-2111 ext. 82147 for any specific question regarding an accommodation. </h5>
+          <h4>Internet and Electronic Mail: </h4><h5> Students are responsible for regularly checking their Western e mail and the course web site (<a href=" https://owl.uwo.ca/portal/"> https://owl.uwo.ca/portal/</a>) and making themselves aware of any information that is posted about the course. </h5>
+          <h4>Accessibility: </h4><h5> : Please contact the course instructor if you require material in an alternate format or if any other arrangements can make this course more accessible to you. You may also wish to contact Services for Students with Disabilities (SSD) at 519-661-2111 ext. 82147 for any specific question regarding an accommodation. </h5>
 
-<h4>Support Services: </h4><h5> Office of the Registrar, <a href=" http://www.registrar.uwo.ca/"> http://www.registrar.uwo.ca/</a>
-					Student Development Centre, <a href="http://www.sdc.uwo.ca/">http://www.sdc.uwo.ca/</a>
-					Engineering Undergraduate Services, <a href=" http://www.eng.uwo.ca/undergraduate/"> http://www.eng.uwo.ca/undergraduate/</a> 
-					USC Student Support Services, <a href=" http://westernusc.ca/services/"> http://westernusc.ca/services/</a> 
+          <h4>Support Services: </h4><h5> Office of the Registrar, <a href=" http://www.registrar.uwo.ca/"> http://www.registrar.uwo.ca/</a>
+                    Student Development Centre, <a href="http://www.sdc.uwo.ca/">http://www.sdc.uwo.ca/</a>
+                    Engineering Undergraduate Services, <a href=" http://www.eng.uwo.ca/undergraduate/"> http://www.eng.uwo.ca/undergraduate/</a> 
+                    USC Student Support Services, <a href=" http://westernusc.ca/services/"> http://westernusc.ca/services/</a> 
 
-Students who are in emotional/mental distress should refer to Mental Health @ Western, <a href=" http://www.health.uwo.ca/mental_health/"> http://www.health.uwo.ca/mental_health/</a>, for a complete list of options about how to obtain help
- </h5>
- <h4>Justification:</h4>
- <textarea className = "desc"
-            type="text"
-            name="JustifyChange"
-            value={this.state.JustifyChange}
-            onChange={(e) => this.setState({ JustifyChange: e.target.value })}
-            placeholder=""
-          />
+          Students who are in emotional/mental distress should refer to Mental Health @ Western, <a href=" http://www.health.uwo.ca/mental_health/"> http://www.health.uwo.ca/mental_health/</a>, for a complete list of options about how to obtain help
+          </h5>
 
-  <div>Email
-  <input
-            type="text"
-            name="email"
-            value={this.state.email}
-            onChange={(e) => this.setState({ email: e.target.value })}
-            placeholder=""
-            required
-          />
-       </div>
-       </div>
-    
-      <input type="text" onChange={this.handleChangeNew}  />
-      
-      <button type="submit">Load unapproved PDFs</button>
-      
+          <h4>Justification:</h4>
+          <textarea className = "desc"
+                      type="text"
+                      name="JustifyChange"
+                      value={this.state.JustifyChange}
+                      onChange={(e) => this.setState({ JustifyChange: e.target.value })}
+                      placeholder=""
+                    />
+
+          
+
        </div>      
       <button onClick={this.callPdfBackend}>Store as unapproved outline</button>
-         
-    
+      </div>
       </div>
       </form>
       </div>

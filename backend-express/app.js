@@ -188,6 +188,18 @@ app.get('/unapproved-outlineLoader/:value', (req, res) => {
     });
 });
 
+app.get('/rejected-outlineLoader/:value', (req, res) => {
+    const { value } = req.params;
+    database.collection('reviewed-outlines').find({ value }).toArray((error, data) => {
+        if (error) {
+            console.log(error);
+            res.status(500).send(error);
+        } else {
+            res.json(data);
+        }
+    });
+});
+
 
 
 //post - pdf generation and fetch
@@ -376,6 +388,17 @@ app.get('/getNonApprovedPdfNames', (req, res) => {
     });
 });
 
+app.get('/getRejectedPdfNames', (req, res) => {
+    database.collection('reviewed-outlines').find({}).toArray((error, data) => {
+        if (error) {
+            res.send(error);
+        } else {
+            const pdfNames = data.map(pdf => pdf.value);
+            res.send(pdfNames);
+        }
+    });
+});
+
 app.get('/getNonApprovedOutline/:value', (req, res) => {
     const name = req.params.value;
     database.collection("non-approved-outlines").find({ value: name }).toArray(function (error, data) {
@@ -431,13 +454,14 @@ app.get('/getNonApprovedOutline/:value', (req, res) => {
                     labora2: d.labora2,
                     midterm2: d.midterm2,
                     submission: d.submission,
-                    locker: d.locker,
+                    locker: d.loscker,
                     devices: d.devices,
                     clickers: d.clickers,
                     outlineName: d.outlineName,
-                    justifyChange: d.JustifyChange,
+                    value: d.value,
                     _id: d._id,
-                    email:d.email
+                    justifyChange: d.JustifyChange,
+                    email: d.email,
                 };
             });
             res.send(outlineData);
