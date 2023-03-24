@@ -330,6 +330,38 @@ app.delete('/new-outline/:outline', (req, res) => {
     });
 })
 
+//Used by AdminReview...Saves instructor's email and key PDF details
+app.post('/notify-approval', (req, res) => {
+    database.collection("approval-status").insertOne(req.body, function(error, data){
+        res.send(Promise.resolve() && (data ? data : error));
+    })
+});
+
+// used by instructor homepage
+app.get('/notify-approval/:email', (req, res) => {
+
+    let inputEmail = req.params.email;
+
+
+    database.collection("approval-status").find({email: inputEmail}).toArray(function (error, data) {
+        res.send((data ? data : error));
+    });
+});
+
+// route for instructor clearing a notification
+app.delete('/notify-approval/:outline', (req, res) => {
+
+    let instructorOutline = req.params.outline;
+
+    database.collection("approval-status").deleteOne({fileName: instructorOutline}, (err, result) => {
+        if (err) throw err;
+        console.log(`Deleted ${result.deletedCount} document(s) with name: ${instructorOutline}`);
+        res.send(`Deleted ${result.deletedCount} document(s) with course: ${instructorOutline}`);
+    });
+})
+
+
+
 app.get('/getNonApprovedPdfNames', (req, res) => {
     database.collection('non-approved-outlines').find({}).toArray((error, data) => {
         if (error) {
@@ -402,6 +434,7 @@ app.get('/getNonApprovedOutline/:value', (req, res) => {
                     outlineName: d.outlineName,
                     justifyChange: d.JustifyChange,
                     _id: d._id,
+                    email:d.email
                 };
             });
             res.send(outlineData);
