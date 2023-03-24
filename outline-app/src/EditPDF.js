@@ -1,15 +1,14 @@
-import React, { Component, useState } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import axios from 'axios';
 import { saveAs } from 'file-saver';
 import { Document, Page, PDFViewer, Text, View } from '@react-pdf/renderer';
 //import {useForm} from 'react-hook-form'
 
-
 class App extends Component {
- constructor(string = ""){
-  super(string);
+ constructor(string = "", props){    
+  super(string, props);
     this.state = {
-
+        outlineNames: [],
         code: '',
         course: '',
         year: '',
@@ -66,6 +65,14 @@ class App extends Component {
       
     }
   }
+
+  getPDFNames = () => {
+    axios.get('/getNonApprovedPdfNames')
+      .then(res => {
+        this.setState({ outlineNames: res.data });
+      })
+      .catch(error => console.error(error));
+  };
 
 
   handleChange = ({ target: { value, name }}) => this.setState({ [name]: value })
@@ -162,8 +169,10 @@ class App extends Component {
   }
   render() {
     return (
+      <div>
       <form className = "titleInputs" onSubmit={this.handleSubmit}>
       <div className="App">
+        {this.getPDFNames()}
          
         <div class="container">
        <div class="header">
@@ -727,6 +736,8 @@ Students who are in emotional/mental distress should refer to Mental Health @ We
 
        </div>
     
+       
+
       <input type="text" onChange={this.handleChangeNew}  />
       
       <button type="submit">Load unapproved PDFs</button>
@@ -743,6 +754,18 @@ Students who are in emotional/mental distress should refer to Mental Health @ We
         
      
       </form>
+
+      <form onSubmit={this.handleSubmit} onChange={this.handleChangeNew}>
+        <select id="outlines" name="outlines">
+          {this.state.outlineNames.map(name => (
+            <option key={name} value={name}>{name}</option>
+          ))}
+        </select>
+        <button type="submit">Load unapproved PDFs</button>
+      </form>
+
+      </div>
+      
     );
   }
 }
