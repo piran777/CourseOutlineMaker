@@ -66,7 +66,7 @@ class App extends Component {
   }
 
   getPDFNames = () => {
-    axios.get('/getRejectedPdfNames')
+    axios.get(`/getRejectedPdfNames/:${localStorage.getItem("Email")}`)
       .then(res => {
         this.setState({ outlineNames: res.data });
       })

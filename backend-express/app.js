@@ -388,8 +388,8 @@ app.get('/getNonApprovedPdfNames', (req, res) => {
     });
 });
 
-app.get('/getRejectedPdfNames', (req, res) => {
-    database.collection('reviewed-outlines').find({}).toArray((error, data) => {
+app.get('/getRejectedPdfNames:email', (req, res) => {
+    database.collection('reviewed-outlines').find({ email: req.params.email }).toArray((error, data) => {
         if (error) {
             res.send(error);
         } else {
