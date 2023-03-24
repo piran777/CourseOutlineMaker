@@ -2,6 +2,7 @@ import React, { Component, useState, useEffect } from 'react';
 import axios from 'axios';
 import { saveAs } from 'file-saver';
 import { Document, Page, PDFViewer, Text, View } from '@react-pdf/renderer';
+import './index.css';
 //import {useForm} from 'react-hook-form'
 
 class App extends Component {
@@ -154,6 +155,8 @@ class App extends Component {
         clickers: data.clickers,
         outlineName: data.outlineName,
         JustifyChange: data.JustifyChange,
+        email: data.email,
+        value: data.value
       });
     })
        
@@ -170,6 +173,16 @@ class App extends Component {
   render() {
     return (
       <div>
+
+      <form onSubmit={this.handleSubmit} onChange={this.handleChangeNew}>
+        <select id="outlines" name="outlines">
+          {this.state.outlineNames.map(name => (
+            <option key={name} value={name}>{name}</option>
+          ))}
+        </select>
+        <button type="submit">Load unapproved PDFs</button>
+      </form>
+
       <form className = "titleInputs" onSubmit={this.handleSubmit}>
       <div className="App">
         {this.getPDFNames()}
@@ -734,14 +747,7 @@ Students who are in emotional/mental distress should refer to Mental Health @ We
             placeholder=""
           />
 
-       </div>
-    
-       
-
-      <input type="text" onChange={this.handleChangeNew}  />
-      
-      <button type="submit">Load unapproved PDFs</button>
-      
+       </div>      
       <button onClick={this.callPdfBackend}>Store as unapproved outline</button>
          
     
@@ -754,16 +760,6 @@ Students who are in emotional/mental distress should refer to Mental Health @ We
         
      
       </form>
-
-      <form onSubmit={this.handleSubmit} onChange={this.handleChangeNew}>
-        <select id="outlines" name="outlines">
-          {this.state.outlineNames.map(name => (
-            <option key={name} value={name}>{name}</option>
-          ))}
-        </select>
-        <button type="submit">Load unapproved PDFs</button>
-      </form>
-
       </div>
       
     );
