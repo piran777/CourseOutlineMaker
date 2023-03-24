@@ -96,6 +96,10 @@ class App extends Component {
       let i =0;
       
       const data = response.data[response.data.length-1];
+      if(response.status !== 200){
+        alert("Not an approved outline. You can't turn this outline into a PDF")
+        
+      } else{
       this.setState({
         code: data.code,
         course: data.course,
@@ -150,12 +154,14 @@ class App extends Component {
         outlineName: data.outlineName,
         JustifyChange: data.JustifyChange,
         
-      });
+      });}
     })
        
       
       .catch((error) => {
         console.log(error);
+        alert("Not an approved outline. You can't turn this outline into a PDF")
+
       });
       
   };
