@@ -56,12 +56,12 @@ app.post('/outline/disapprove', (req, res) => {
     });
 });
 
-/*app.get('/getOutline/:value', (req, res) => {
-    const name = req.params.value;
-    database.collection("outline").find({ value: name }).toArray(function (error, data) {
+app.get('/outline/history', (req, res) => {
+    const value = req.query.value
+    database.collection("outline").find({ value: value }).toArray(function (error, data) {
         res.send((data ? data : error));
     });
-});*/
+});
 
 app.get('/getPdfNames', (req, res) => {
     database.collection('outline').find({}).toArray((error, data) => {

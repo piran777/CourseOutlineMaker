@@ -342,107 +342,142 @@ class App extends Component {
           <table>
   <tr>
     <td>Knowledge Base</td>
-    <td><input className='shortText'
-        type="text"
-        name="knowledge"
-        value={this.state.knowledge}
-            onChange={(e) => this.setState({ knowledge: e.target.value })}
-        placeholder="x"
-      /></td>
+    <td>
+      <select name="knowledge"
+                value={this.state.knowledge} 
+                onChange={(e) => this.setState({knowledge: e.target.value})}
+                placeholder="x">
+            <option>N/A</option>
+            <option>I</option>
+            <option>D</option>
+            <option>A</option>
+        </select></td>
     <td>Use of Engineering Tools</td>
-    <td><input className='shortText'
-        type="text"
-        name= "engTools"
-        value={this.state.engTools}
-            onChange={(e) => this.setState({ engTools: e.target.value })}
-        placeholder="x"
-      /></td>
+    <td>
+      <select name="engTools"
+                value={this.state.engTools} 
+                onChange={(e) => this.setState({engTools: e.target.value})}
+                placeholder="x">
+            <option>N/A</option>
+            <option>I</option>
+            <option>D</option>
+            <option>A</option>
+        </select></td>
     <td>Impact on Society and the Environment</td>
-    <td><input className='shortText'
-        type="text"
-        name="impact"
-        value={this.state.impact}
-        onChange={(e) => this.setState({ impact: e.target.value })}
-        placeholder="x"
-      /></td>
+    <td>
+      <select name="impact"
+                value={this.state.impact} 
+                onChange={(e) => this.setState({impact: e.target.value})}
+                placeholder="x">
+            <option>N/A</option>
+            <option>I</option>
+            <option>D</option>
+            <option>A</option>
+        </select></td>
   </tr>
   <tr>
     <td>Problem Analysis</td>
-    <td><input className='shortText'
-        type="text"
-        name="probAnaly"
-        value={this.state.probAnaly}
-        onChange={(e) => this.setState({ probAnaly: e.target.value })}
-        placeholder="x"
-      /></td>
+    <td><select name="probAnaly"
+                value={this.state.probAnaly} 
+                onChange={(e) => this.setState({probAnaly: e.target.value})}
+                placeholder="x">
+            <option>N/A</option>
+            <option>I</option>
+            <option>D</option>
+            <option>A</option>
+        </select></td>
     <td>Individual and Team Work</td>
-    <td><input className='shortText'
-        type="text"
-        name="teamWork"
-        value={this.state.teamWork}
-        onChange={(e) => this.setState({ teamWork: e.target.value })}
-        placeholder="x"
-      /></td>
+    <td>
+      <select name="teamWork"
+                value={this.state.teamWork} 
+                onChange={(e) => this.setState({teamWork: e.target.value})}
+                placeholder="x">
+            <option>N/A</option>
+            <option>I</option>
+            <option>D</option>
+            <option>A</option>
+        </select></td>
     <td>Ethics and Equity</td>
-    <td><input className='shortText'
-        type="text"
-        name="ethics"
-        value={this.state.ethics}
-        onChange={(e) => this.setState({ ethics: e.target.value })}
-        placeholder="x"
-      /></td>
+    <td>
+      <select name="ethics"
+                value={this.state.ethics} 
+                onChange={(e) => this.setState({ethics: e.target.value})}
+                placeholder="x">
+            <option>N/A</option>
+            <option>I</option>
+            <option>D</option>
+            <option>A</option>
+        </select></td>
   </tr>
   <tr>
     <td>Investigation</td>
-    <td><input className='shortText'
-        type="text"
-        name="investigation"
-        value={this.state.investigation}
-            onChange={(e) => this.setState({ investigation: e.target.value })}
-        placeholder="x"
-      /></td>
+    <td>
+      <select name="investigation"
+                value={this.state.investigation} 
+                onChange={(e) => this.setState({investigation: e.target.value})}
+                placeholder="x">
+            <option>N/A</option>
+            <option>I</option>
+            <option>D</option>
+            <option>A</option>
+        </select></td>
     <td>Communication Skills</td>
-    <td><input className='shortText'
-        type="text"
-        name="comSkills"
-        value={this.state.comSkills}
-        onChange={(e) => this.setState({ comSkills: e.target.value })}
-        placeholder="x"
-      /></td>
+    <td>
+      <select name="comSkills"
+                value={this.state.comSkills} 
+                onChange={(e) => this.setState({comSkills: e.target.value})}
+                placeholder="x">
+            <option>N/A</option>
+            <option>I</option>
+            <option>D</option>
+            <option>A</option>
+        </select></td>
     <td>Economics and Project Management</td>
-    <td><input className='shortText'
-        type="text"
-        name="economics"
-        value={this.state.economics}
-        onChange={(e) => this.setState({ economics: e.target.value })}
-        placeholder="x"
-      /></td>
+    <td>
+      <select name="economics"
+                value={this.state.economics} 
+                onChange={(e) => this.setState({economics: e.target.value})}
+                placeholder="x">
+            <option>N/A</option>
+            <option>I</option>
+            <option>D</option>
+            <option>A</option>
+        </select></td>
   </tr>
   <tr>
     <td>Design</td>
-    <td><input className='shortText'
-        type="text"
-        name="design"
-        value={this.state.design}
-        onChange={(e) => this.setState({ design: e.target.value })}
-        placeholder="x"
-      /></td>
+    <td>
+      <select name="design"
+                value={this.state.design} 
+                onChange={(e) => this.setState({design: e.target.value})}
+                placeholder="x">
+            <option>N/A</option>
+            <option>I</option>
+            <option>D</option>
+            <option>A</option>
+        </select></td>
     <td>Professionalism</td>
-    <td><input className='shortText'
-        type="text"
-        name="professional"
-        value={this.state.professional}
-        onChange={(e) => this.setState({ professional: e.target.value })}
-        placeholder="x"
-      /></td>
+    <td>
+      <select name="professional"
+                value={this.state.professional} 
+                onChange={(e) => this.setState({professional: e.target.value})}
+                placeholder="x">
+            <option>N/A</option>
+            <option>I</option>
+            <option>D</option>
+            <option>A</option>
+        </select></td>
     <td>Life-Long Learning</td>
-    <td><input className='shortText'
-        type="text"
-        name="learning"
-        value={this.state.learning}
-        onChange={(e) => this.setState({ leanring: e.target.value })}
-        placeholder="x"
-      /></td>
+    <td>
+      <select name="learning"
+                value={this.state.learning} 
+                onChange={(e) => this.setState({learning: e.target.value})}
+                placeholder="x">
+            <option>N/A</option>
+            <option>I</option>
+            <option>D</option>
+            <option>A</option>
+        </select></td>
   </tr>
 </table>
 <h5> Notation: where x be I: Introductory, D: Intermediate, A: Advanced, or empty. I – The instructor will introduce the topic at the level required.  It is not necessary for the student to have seen the material before. D – There may be a reminder or review, but the student is expected to have seen and been tested on the material before taking the course. A – It is expected that the student can apply the knowledge without prompting (e.g. no review).</h5>

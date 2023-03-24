@@ -11,6 +11,7 @@ import Register from './components/Register/Register';
 import InstructorHome from './components/Instructor/instructorHome';
 import AssignInstructor from './components/AssignInstructor/AssignInstructor';
 import AdminReview from './components/AdminReview/AdminReview';
+import OutlineHistory from './components/OutlineHistory/OutlineHistory';
 import AdminHome from './components/AdminHome/AdminHome';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -21,6 +22,7 @@ root.render(
         <Route path = "/login" element = {<Login />}/>
         <Route path = "/register" element = {<Register />}/>
         <Route path = "/pdf" exact element = {<PrivateRoute><App />instructor</PrivateRoute>}></Route> 
+        <Route path = "/history" exact element = {<PrivateRoute><OutlineHistory />instructor</PrivateRoute>}></Route> 
         <Route path = "/instructor/:fname" element = {<PrivateRoute><InstructorHome />instructor</PrivateRoute>} />
         <Route path = "/assign-instructor" element = {<PrivateRoute><AssignInstructor />admin</PrivateRoute>}/>
         <Route path = "/DisplayPdf" exact element = {<DisplayPdf />}></Route>
