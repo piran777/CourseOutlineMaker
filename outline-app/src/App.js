@@ -62,11 +62,11 @@ class App extends Component {
         clickers: "",
         outlineName:"",
         JustifyChange: "",
+        email:""
         
       
     }
   }
-
 
   handleChange = ({ target: { value, name }}) => this.setState({ [name]: value })
   handleChange2 = (e) =>{
@@ -153,8 +153,12 @@ class App extends Component {
         clickers: data.clickers,
         outlineName: data.outlineName,
         JustifyChange: data.JustifyChange,
+        email: data.email
+
+
         
       });}
+
     })
        
       
@@ -768,9 +772,17 @@ Students who are in emotional/mental distress should refer to Mental Health @ We
             onChange={(e) => this.setState({ JustifyChange: e.target.value })}
             placeholder=""
           />
-
+  <div>Email
+  <input
+            type="text"
+            name="email"
+            value={this.state.email}
+            onChange={(e) => this.setState({ email: e.target.value })}
+            placeholder=""
+            required
+          />
        </div>
-       
+       </div>
       <input
       type = "text"
       name ="outlineName"
