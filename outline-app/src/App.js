@@ -74,13 +74,28 @@ class App extends Component {
   }
 
   createAndDownloadPdf = () => {
+    axios.get(`http://localhost:4200/outlineLoader/${this.state.value}`).then(res=>{
+        if(res.status===200){
     axios.post('/create-pdf', this.state)
       .then(() => axios.get('fetch-pdf', { responseType: 'blob' }))
       .then((res) => {
         const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
 
-        saveAs(pdfBlob, `${this.state.value}.pdf`);
-      })
+        
+          saveAs(pdfBlob, `${this.state.value}.pdf`);
+        
+        
+        })}
+        else{
+          alert("cant download")}
+        
+        
+        
+      }) .catch((error) => {
+        console.log(error);
+        alert("cant download")
+
+      });
   }
 
   callPdfBackend = () => {
@@ -171,7 +186,7 @@ class App extends Component {
   }
   render() {
     return (
-      <form className = "titleInputs" onSubmit={this.handleSubmit}>
+      
       <div className="App">
          
         <div class="container">
@@ -779,7 +794,7 @@ Students who are in emotional/mental distress should refer to Mental Health @ We
       </input>
       <button onClick={this.createAndDownloadPdf}>Download PDF</button>
       
-      <button type="submit">Load </button>
+      <button type="submit" onClick={this.handleSubmit}>Load </button>
        
     </div>
     
@@ -789,7 +804,7 @@ Students who are in emotional/mental distress should refer to Mental Health @ We
      
         
      
-      </form>
+      
     );
   }
 }

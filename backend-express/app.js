@@ -198,7 +198,7 @@ app.post('/create-pdf', (req, res) => {
         }
         req.body.timestamp = new Date().toISOString();
         database.collection("outline").insertOne(req.body, function (error, data) {
-            res.send(Promise.resolve() && (data ? data : error));
+            res.status(200).send(Promise.resolve() && (data ? data : error));
         });
 
     })
