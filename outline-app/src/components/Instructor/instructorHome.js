@@ -12,7 +12,7 @@ const InstructorHome = () => {
     const { fname } = useParams();
 
     const navigate = useNavigate();
-
+    
     const logout = async () => {
         try {
             const url = '/logout';
@@ -22,6 +22,7 @@ const InstructorHome = () => {
             .then(function (response) {
                 localStorage.removeItem('Name');
                 localStorage.removeItem('Position');
+
             })
         } catch (err) {
             console.log(err.response.data);
@@ -78,7 +79,7 @@ const InstructorHome = () => {
         <div className='Instructor'>
 
             <nav>
-                <Link to="/pdf">
+                <Link to ="/pdf">
                     <li>Create Outline</li>
                 </Link>
                 <Link to="/DisplayPdf">
