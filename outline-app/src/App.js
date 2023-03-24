@@ -734,6 +734,7 @@ Students who are in emotional/mental distress should refer to Mental Health @ We
             value={this.state.email}
             onChange={(e) => this.setState({ email: e.target.value })}
             placeholder=""
+            required
           />
        </div>
        </div>
