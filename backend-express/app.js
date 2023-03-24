@@ -187,7 +187,7 @@ app.get('/unapproved-outlineLoader/:value', (req, res) => {
 
 app.get('/rejected-outlineLoader/:value', (req, res) => {
     const { value } = req.params;
-    database.collection('non-approved-outlines').find({ value }).toArray((error, data) => {
+    database.collection('reviewed-outlines').find({ value }).toArray((error, data) => {
         if (error) {
             console.log(error);
             res.status(500).send(error);
@@ -391,8 +391,10 @@ app.get('/getNonApprovedOutline/:value', (req, res) => {
                     devices: d.devices,
                     clickers: d.clickers,
                     outlineName: d.outlineName,
-                    justifyChange: d.JustifyChange,
+                    value: d.value,
                     _id: d._id,
+                    justifyChange: d.JustifyChange,
+                    email: d.email,
                 };
             });
             res.send(outlineData);

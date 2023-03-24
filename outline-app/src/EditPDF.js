@@ -75,6 +75,10 @@ class App extends Component {
       .catch(error => console.error(error));
   };
 
+  componentDidMount() {
+    // This function will run only when the component is mounted (i.e., page is refreshed)
+    this.getPDFNames();
+  }
 
   handleChange = ({ target: { value, name }}) => this.setState({ [name]: value })
   handleChange2 = (e) =>{
@@ -93,7 +97,10 @@ class App extends Component {
 
   callPdfBackend = () => {
     axios.post('/create-non-approved-pdf', this.state)
-      .then(() => axios.get('fetch-pdf', { responseType: 'blob' }))}
+      .then(() => axios.get('fetch-pdf', { responseType: 'blob' }))
+      .then(function (response) {
+        window.location.reload(false);
+  })}
   
 
   
@@ -185,7 +192,6 @@ class App extends Component {
 
       <form className = "titleInputs" onSubmit={this.handleSubmit}>
       <div className="App">
-        {this.getPDFNames()}
          
         <div class="container">
        <div class="header">

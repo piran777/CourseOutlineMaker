@@ -90,6 +90,7 @@ export default function Index() {
                 outlineName: data.outlineName,
                 value: data.value,
                 _id: data._id,
+                email: data.email,
                 comments: comment
             }
         ))
@@ -157,7 +158,8 @@ export default function Index() {
                     clickers: data.clickers,
                     outlineName: data.outlineName,
                     value: data.value,
-                    _id: data._id
+                    _id: data._id,
+                    email: data.email,
                 }
         ))
         axios.post('/outline/approve', {

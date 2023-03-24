@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { saveAs } from 'file-saver';
-import { Document, Page, PDFViewer, Text, View } from '@react-pdf/renderer';
-import './index.css';
-//import {useForm} from 'react-hook-form'
 
 class App extends Component {
+
+  
+
  constructor(string = "", props){    
   super(string, props);
     this.state = {
@@ -74,6 +73,11 @@ class App extends Component {
       .catch(error => console.error(error));
   };
 
+  componentDidMount() {
+    // This function will run only when the component is mounted (i.e., page is refreshed)
+    this.getPDFNames();
+  }
+
 
   handleChange = ({ target: { value, name }}) => this.setState({ [name]: value })
   handleChange2 = (e) =>{
@@ -82,7 +86,10 @@ class App extends Component {
 
   callPdfBackend = () => {
     axios.post('/create-non-approved-pdf', this.state)
-      .then(() => axios.get('fetch-pdf', { responseType: 'blob' }))}
+      .then(() => axios.get('fetch-pdf', { responseType: 'blob' }))
+      .then(function (response) {
+        window.location.reload(false);
+  })}
   
 
    handleSubmit = (event) => {
@@ -145,11 +152,10 @@ class App extends Component {
         JustifyChange: data.JustifyChange,
         email: data.email,
         value: data.value,
-        comments: data.comments
+        id: data._id,
+        comments: data.comments,
       });
     })
-       
-      
       .catch((error) => {
         console.log(error);
       });
@@ -172,9 +178,10 @@ class App extends Component {
         <button type="submit">Load unapproved PDFs</button>
       </form>
 
+      <h4>Comments From Admin:</h4><h5> { <textarea className = "desc" name = "comments" value = { this.state.comments } readOnly/>}</h5>
+
       <form className = "titleInputs" onSubmit={this.handleSubmit}>
       <div className="App">
-        {this.getPDFNames()}
          
         <div class="container">
        <div class="header">
@@ -727,6 +734,7 @@ Scholastic offences are taken seriously and students are directed to read the ap
 
           Students who are in emotional/mental distress should refer to Mental Health @ Western, <a href=" http://www.health.uwo.ca/mental_health/"> http://www.health.uwo.ca/mental_health/</a>, for a complete list of options about how to obtain help
           </h5>
+
           <h4>Justification:</h4>
           <textarea className = "desc"
                       type="text"
@@ -735,6 +743,8 @@ Scholastic offences are taken seriously and students are directed to read the ap
                       onChange={(e) => this.setState({ JustifyChange: e.target.value })}
                       placeholder=""
                     />
+
+          
 
        </div>      
       <button onClick={this.callPdfBackend}>Store as unapproved outline</button>
