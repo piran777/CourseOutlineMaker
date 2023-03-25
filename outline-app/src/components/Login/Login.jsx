@@ -40,7 +40,7 @@ export default function Index() {
                 if(position == 'admin'){
                     navigate('../admin-home');
                 } else {
-                    navigate('../instructor/' + localStorage.getItem("Name") + localStorage.getItem("Email"));
+                    navigate('../instructor');
                 }
             }
 

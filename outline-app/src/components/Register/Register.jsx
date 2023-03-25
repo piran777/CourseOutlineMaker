@@ -36,6 +36,7 @@ export default function Index() {
                 //Redirects to home page
                 localStorage.setItem('Name', data.user.firstName + ' ' + data.user.lastName);
                 localStorage.setItem('Position', data.user.position);
+                navigate('../instructor');
             }
 
         } catch (err) {

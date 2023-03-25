@@ -84,7 +84,7 @@ const PrivateRoute = ({ children }) => {
     (isAuthenticated ? 
       (localStorage.getItem("Position") == "admin") ? 
         <Navigate to = '/login'/>
-        :<Navigate to = {`/instructor/${localStorage.getItem("Name")}`}/> 
+        :<Navigate to = {`/instructor`}/> 
       :<Navigate to = '/login'/>)
     : isAuthenticated ? children[0] :  <Navigate to = '/login'/>;
 };
