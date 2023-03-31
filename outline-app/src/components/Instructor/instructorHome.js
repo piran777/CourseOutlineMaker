@@ -119,6 +119,9 @@ const InstructorHome = () => {
                 <Link to="/history">
                     <li>Outline History</li>
                 </Link>
+                <Link to="/RejectedOutlines">
+                    <li>Rejected Outlines</li>
+                </Link>
                 <Link to="/login">
                     <li id="logout" onClick={logout}>Logout</li>
                 </Link>
