@@ -789,7 +789,7 @@ Students who are in emotional/mental distress should refer to Mental Health @ We
             placeholder=""
           />
 
-  <div>Email
+  <div>Email:
   <input
             type="text"
             name="email"
@@ -801,12 +801,11 @@ Students who are in emotional/mental distress should refer to Mental Health @ We
        </div>
        </div>
     
-      <input type="text" onChange={this.handleChangeNew}  />
-      
-      <button type="submit">Load unapproved PDFs</button>
+      File Name:<input type="text" onChange={this.handleChangeNew}  required/>
+      <button onClick={this.callPdfBackend}>Store as unapproved outline</button>
       
        </div>      
-      <button onClick={this.callPdfBackend}>Store as unapproved outline</button>
+
          
     
       </div>
