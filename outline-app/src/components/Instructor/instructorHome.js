@@ -152,7 +152,7 @@ const InstructorHome = () => {
                         approvals?.length > 0
                             ? (
                                 approvals.map(approval =>
-                                    <li>{approval.fileName} <p>{approval.comment}</p><button className='del' id={approval.fileName} onClick={(event) => readApprovalNotification(approval.fileName)}>Clear</button></li>)
+                                    <li>PDF name:{approval.fileName}<p>Status:{approval.status}</p> <p>Comments:{approval.comment}</p><button className='del' id={approval.fileName} onClick={(event) => readApprovalNotification(approval.fileName)}>Clear</button></li>)
                             ) : (
                                 <li>Check back later!</li>
                             )

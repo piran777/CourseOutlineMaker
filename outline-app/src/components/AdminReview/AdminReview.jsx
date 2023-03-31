@@ -101,7 +101,8 @@ export default function Index() {
             body = {
                 email: data.email,
                 fileName: pdfName,
-                comment: comment
+                comment: comment,
+                status: "REJECTED"
             }
         ))
         
@@ -170,6 +171,7 @@ export default function Index() {
                     outlineName: data.outlineName,
                     value: data.value,
                     _id: data._id,
+                    comments: comment,
                     email: data.email
                 }
         ))
@@ -177,7 +179,8 @@ export default function Index() {
         const body = {
             email: acceptedData.email,
             fileName: pdfName,
-            comment: "Outline Approved!"
+            comment: comment,
+            status: "ACCEPTED"
         }
 
         axios.post('/outline/approve', {
