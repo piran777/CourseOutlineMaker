@@ -13,17 +13,17 @@ const InstructorHome = () => {
     const { fname } = useParams();
 
     const navigate = useNavigate();
-    
+
     const logout = async () => {
         try {
             const url = '/logout';
             const res = await axios.get(url, {
             })
-            .then(function (response) {
-                localStorage.removeItem('Name');
-                localStorage.removeItem('Position');
-                localStorage.removeItem('Email');
-            })
+                .then(function (response) {
+                    localStorage.removeItem('Name');
+                    localStorage.removeItem('Position');
+                    localStorage.removeItem('Email');
+                })
         } catch (err) {
             console.log(err.response.data);
         }
@@ -39,14 +39,14 @@ const InstructorHome = () => {
         let lName = nameStruct[1];
 
         // Get the list of the new course outlines using fname and lname params
-        try{
+        try {
             const url = '/new-outline/' + fName + "/" + lName;
 
             const res = await axios.get(url, {
             })
-            .then(function (res) {
-                setCourses(res.data);
-            })
+                .then(function (res) {
+                    setCourses(res.data);
+                })
 
         } catch (err) {
             console.log(err.response);
@@ -56,28 +56,28 @@ const InstructorHome = () => {
     const approvalNotification = async () => {
         let email = localStorage.getItem("Email");
 
-        try{
-            const url = '/notify-approval/' + email; 
+        try {
+            const url = '/notify-approval/' + email;
 
-            const res = await axios.get(url, {            
+            const res = await axios.get(url, {
             })
-            .then(function(res) {
-                setApprovals(res.data);
-            })
+                .then(function (res) {
+                    setApprovals(res.data);
+                })
         } catch (err) {
             console.log(err.response);
         }
     }
 
-    const readApprovalNotification = async(fileName) => {
-        try { 
+    const readApprovalNotification = async (fileName) => {
+        try {
             const url = '/notify-approval/' + fileName;
             const res = await axios.delete(url, {
             })
-            .then(function(res) {
-                approvalNotification();
-            })
-        } catch(err) {
+                .then(function (res) {
+                    approvalNotification();
+                })
+        } catch (err) {
             console.log(err.response.data);
         }
     }
@@ -90,9 +90,9 @@ const InstructorHome = () => {
             const url = '/new-outline/' + courseCode;
             const res = await axios.delete(url, {       // The route is called properly
             })
-            .then(function (res) {
-                notification();
-            })
+                .then(function (res) {
+                    notification();
+                })
         } catch (err) {
             console.log(err.response.data);
         }
@@ -107,55 +107,58 @@ const InstructorHome = () => {
         <div className='Instructor'>
 
             <nav>
-                <Link to ="/pdf">
-                    <li>Create Outline</li>
+                <Link to="/EditPDF">
+                    <li>Edit/Create unapproved outlines</li>
+                </Link>
+                <Link to="/pdf">
+                    <li>Edit/Create approved outlines</li>
                 </Link>
                 <Link to="/DisplayPdf">
                     <li>Previous Outlines</li>
                 </Link>
-                <Link to="/EditPDF">
-                    <li>Unapproved Outlines</li>
-                </Link>
                 <Link to="/history">
                     <li>Outline History</li>
+                </Link>
+                <Link to="/RejectedOutlines">
+                    <li>Rejected Outlines</li>
                 </Link>
                 <Link to="/login">
                     <li id="logout" onClick={logout}>Logout</li>
                 </Link>
             </nav>
 
-            <h1>Welcome { fname }!</h1>
+            <h1>Welcome {fname}!</h1>
 
             <div className='currentOutlines'>
-                {courses?.length > 0 
-                    ?   (
-                            <h3>New Course Outlines!</h3>
-                        ) : (
-                            <h3>There are no new outlines!</h3>
-                        )
+                {courses?.length > 0
+                    ? (
+                        <h3>New Course Outlines!</h3>
+                    ) : (
+                        <h3>There are no new outlines!</h3>
+                    )
                 }
 
                 <ul>
 
                     {
                         courses?.length > 0
-                        ? (
-                            courses.map((course) => 
-                            <li>{course.name}<button className='del' id={course.name} onClick={(event) => readNotification(course.name)}>Clear</button></li>
-                        )) : (
-                            <li>Check back later!</li>
-                        )
+                            ? (
+                                courses.map((course) =>
+                                    <li>{course.name}<button className='del' id={course.name} onClick={(event) => readNotification(course.name)}>Clear</button></li>
+                                )) : (
+                                <li>Check back later!</li>
+                            )
                     }
                 </ul>
                 <ul>
                     {
                         approvals?.length > 0
-                        ? (
-                            approvals.map(approval => 
-                            <li>{approval.fileName} <p>{approval.comment}</p><button className='del' id={approval.fileName} onClick= {(event) => readApprovalNotification(approval.fileName)}>Clear</button></li>)
-                        ) : (
-                            <li>Check back later!</li>
-                        )
+                            ? (
+                                approvals.map(approval =>
+                                    <li>PDF name:{approval.fileName}<p>Status:{approval.status}</p> <p>Comments:{approval.comment}</p><button className='del' id={approval.fileName} onClick={(event) => readApprovalNotification(approval.fileName)}>Clear</button></li>)
+                            ) : (
+                                <li>Check back later!</li>
+                            )
                     }
                 </ul>
             </div>
