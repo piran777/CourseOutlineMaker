@@ -375,8 +375,6 @@ app.delete('/notify-approval/:outline', (req, res) => {
     });
 })
 
-
-
 app.get('/getNonApprovedPdfNames', (req, res) => {
     database.collection('non-approved-outlines').find({}).toArray((error, data) => {
         if (error) {
@@ -388,8 +386,10 @@ app.get('/getNonApprovedPdfNames', (req, res) => {
     });
 });
 
-app.get('/getRejectedPdfNames:email', (req, res) => {
-    database.collection('reviewed-outlines').find({ email: req.params.email }).toArray((error, data) => {
+app.get('/getRejectedPdfNames/:email', (req, res) => {
+    let inputEmail = req.params.email;
+    
+    database.collection("reviewed-outlines").find({ email: inputEmail }).toArray((error, data) => {
         if (error) {
             res.send(error);
         } else {
@@ -462,6 +462,7 @@ app.get('/getNonApprovedOutline/:value', (req, res) => {
                     _id: d._id,
                     justifyChange: d.JustifyChange,
                     email: d.email,
+                    timestamp: d.timestamp,
                 };
             });
             res.send(outlineData);

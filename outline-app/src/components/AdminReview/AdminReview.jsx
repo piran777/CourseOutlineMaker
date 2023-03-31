@@ -92,8 +92,8 @@ export default function Index() {
                 value: data.value,
                 _id: data._id,
                 comments: comment,
-                email: data.email
-
+                email: data.email,
+                timestamp: data.timestamp
             }
         ))
 
@@ -170,7 +170,8 @@ export default function Index() {
                     outlineName: data.outlineName,
                     value: data.value,
                     _id: data._id,
-                    email: data.email
+                    email: data.email,
+                    timestamp: data.timestamp
                 }
         ))
 

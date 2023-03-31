@@ -62,11 +62,12 @@ class App extends Component {
         outlineName:"",
         JustifyChange: "",
         comments: "",
+        timestamp: ""
     }
   }
 
   getPDFNames = () => {
-    axios.get(`/getRejectedPdfNames/:${localStorage.getItem("Email")}`)
+    axios.get(`/getRejectedPdfNames/${localStorage.getItem("Email")}`)
       .then(res => {
         this.setState({ outlineNames: res.data });
       })
@@ -154,6 +155,7 @@ class App extends Component {
         value: data.value,
         id: data._id,
         comments: data.comments,
+        timestamp: data.timestamp
       });
     })
       .catch((error) => {
