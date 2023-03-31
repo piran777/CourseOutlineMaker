@@ -108,7 +108,7 @@ const InstructorHome = () => {
 
             <nav>
                 <Link to="/EditPDF">
-                    <li>Edit/Create unapproved outlines Outlines</li>
+                    <li>Edit/Create unapproved outlines</li>
                 </Link>
                 <Link to="/pdf">
                     <li>Edit/Create approved outlines</li>
